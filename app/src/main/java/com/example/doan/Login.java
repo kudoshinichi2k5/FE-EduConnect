@@ -1,5 +1,6 @@
 package com.example.doan; // <--- ĐỔI TÊN PACKAGE CỦA BẠN Ở ĐÂY
 
+import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +39,16 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // Đảm bảo tên file layout đúng là activity_login
+        setContentView(R.layout.activity_login);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if (auth == null) {
+            Log.e("FIREBASE_INIT", "FirebaseAuth NULL - Firebase chưa init");
+        } else {
+            Log.d("FIREBASE_INIT", "FirebaseAuth OK - Firebase đã init");
+        }
+
 
 //        // 1. Khởi tạo Firebase
 //        mAuth = FirebaseAuth.getInstance();

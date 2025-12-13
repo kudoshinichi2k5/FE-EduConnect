@@ -46,17 +46,17 @@
             android:padding="24dp">
 
             <EditText
-                android:id="@+id/signupusername"
+                android:id="@+id/etFullName"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@drawable/bg_edittext"
-                android:hint="Tên đăng nhập"
+                android:hint="Họ và tên"
                 android:paddingStart="16dp"
                 android:drawableStart="@android:drawable/ic_menu_myplaces"
                 android:drawablePadding="12dp"
                 android:drawableTint="#757575"
                 android:layout_marginBottom="16dp"
-                android:inputType="text"/>
+                android:inputType="textPersonName"/>
 
             <EditText
                 android:id="@+id/signupemail"
@@ -69,7 +69,8 @@
                 android:drawablePadding="12dp"
                 android:drawableTint="#757575"
                 android:layout_marginBottom="16dp"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"/>
 
             <EditText
                 android:id="@+id/signuppassword"

@@ -86,17 +86,18 @@
                 android:layout_marginBottom="24dp"/>
 
             <EditText
-                android:id="@+id/email_username"
+                android:id="@+id/loginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@drawable/bg_edittext"
-                android:hint="Tên đăng nhập"
+                android:hint="Email"
                 android:paddingStart="16dp"
-                android:drawableStart="@android:drawable/ic_menu_myplaces"
+                android:drawableStart="@android:drawable/ic_dialog_email"
                 android:drawablePadding="12dp"
                 android:drawableTint="#757575"
                 android:layout_marginBottom="16dp"
-                android:inputType="text"/>
+                android:inputType="textEmailAddress"
+                android:autofillHints="emailAddress"/>
 
             <EditText
                 android:id="@+id/loginpassword"
@@ -109,7 +110,8 @@
                 android:drawablePadding="12dp"
                 android:drawableTint="#757575"
                 android:layout_marginBottom="8dp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:importantForAutofill="no"/>
 
             <TextView
                 android:id="@+id/forgot_password"

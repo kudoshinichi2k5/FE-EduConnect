@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.LoginResponse;
+import com.example.doan.utils.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,6 +33,16 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SessionManager sessionManager = new SessionManager(this);
+
+        // ✅ Kiểm tra auto login NGAY LẬP TỨC
+        if (sessionManager.isLoggedIn()) {
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         // ===== ÁNH XẠ VIEW =====
@@ -103,6 +114,16 @@ public class Login extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
 
                     LoginResponse.User user = response.body().getUser();
+
+                    // ===== SAVE SESSION =====
+                    SessionManager sessionManager = new SessionManager(Login.this);
+                    sessionManager.saveUser(
+                            user.getUid(),
+                            user.getEmail(),
+                            user.getUsername(),
+                            user.getRole(),
+                            bearerToken
+                    );
 
                     Toast.makeText(Login.this,
                             "Xin chào " + user.getUsername(),

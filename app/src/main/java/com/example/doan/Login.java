@@ -34,14 +34,14 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SessionManager sessionManager = new SessionManager(this);
-
-        // ✅ Kiểm tra auto login NGAY LẬP TỨC
-        if (sessionManager.isLoggedIn()) {
-            startActivity(new Intent(Login.this, MainActivity.class));
-            finish();
-            return;
-        }
+//        SessionManager sessionManager = new SessionManager(this);
+//
+//        // ✅ Kiểm tra auto login NGAY LẬP TỨC
+//        if (sessionManager.isLoggedIn()) {
+//            startActivity(new Intent(Login.this, MainActivity.class));
+//            finish();
+//            return;
+//        }
 
         setContentView(R.layout.activity_login);
 

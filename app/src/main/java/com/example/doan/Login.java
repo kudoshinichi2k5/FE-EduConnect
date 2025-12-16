@@ -240,6 +240,13 @@ public class Login extends AppCompatActivity {
                 token
         );
 
+        // ✅ THÊM THÔNG BÁO
+        Toast.makeText(
+                Login.this,
+                "Đăng nhập thành công: " + user.getUsername(),
+                Toast.LENGTH_SHORT
+        ).show();
+
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

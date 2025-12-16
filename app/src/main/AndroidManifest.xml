@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.doan">
-    <uses-permission android:name="android.permission.INTERNET" />
+    package="com.example.doan"> <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doan"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <activity
@@ -32,6 +31,14 @@
 
         <activity
             android:name=".ForgotPassword"
+            android:exported="false" />
+
+        <activity
+            android:name=".Home"
+            android:exported="false" />
+
+        <activity
+            android:name=".OpportunityDetailActivity"
             android:exported="false" />
 
         <activity

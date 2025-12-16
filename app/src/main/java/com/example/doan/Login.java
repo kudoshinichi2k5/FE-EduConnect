@@ -247,7 +247,9 @@ public class Login extends AppCompatActivity {
                 Toast.LENGTH_SHORT
         ).show();
 
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        Intent intent = new Intent(this, Home.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finishAffinity();
     }
 }

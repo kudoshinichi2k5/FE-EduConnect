@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">doan</string>
+    <!-- Web client ID dùng cho Google Sign-In -->
+    <string name="default_web_client_id">
+        1072371388672-0p10fukpfdg71dkcjgefckjjsfhgknm6.apps.googleusercontent.com
+    </string>
 </resources>

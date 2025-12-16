@@ -50,8 +50,4 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.2")
 // Thư viện Google Sign In (Để đăng nhập bằng Gmail)
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-
-    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
-
-    implementation("com.google.firebase:firebase-analytics")
 }

@@ -2,11 +2,15 @@ package com.example.doan.api;
 
 import com.example.doan.model.LoginResponse;
 import com.example.doan.model.RegisterRequest;
+import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import java.util.List;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * ApiService
@@ -28,4 +32,10 @@ public interface ApiService {
     Call<Void> register(
             @Body RegisterRequest request
     );
+
+    @GET("opportunity")
+    Call<List<Opportunity>> getAllOpportunities();
+
+    @GET("opportunity/{id}")
+    Call<Opportunity> getOpportunityById(@Path("id") String id);
 }

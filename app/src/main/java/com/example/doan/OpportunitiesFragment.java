@@ -1,4 +1,5 @@
 package com.example.doan;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,38 +13,46 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doan.api.ApiClient;
+import com.example.doan.api.ApiService;
+import com.example.doan.model.Opportunity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OpportunitiesFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private OpportunityAdapter adapter;
     private SearchView searchView;
-    private List<Opportunity> mList; // Danh sách gốc
+
+    // Danh sách gốc từ backend
+    private List<Opportunity> mList = new ArrayList<>();
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
         View view = inflater.inflate(R.layout.fragment_opportunities, container, false);
 
         recyclerView = view.findViewById(R.id.rvOpportunities);
         searchView = view.findViewById(R.id.searchView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // 1. Tạo dữ liệu gốc
-        mList = new ArrayList<>();
-        mList.add(new Opportunity("Học bổng Doanh nghiệp kì Fall 2025", "Học bổng 100% học phí...", "13/12/2025", "30/01/2026", "https://daihoc.fpt.edu.vn"));
-        mList.add(new Opportunity("Tuyển thực tập sinh Android/Java", "FPT Software tuyển dụng 50 Fresher...", "10/12/2025", "15/01/2026", "https://fpt-software.com"));
-        mList.add(new Opportunity("Cuộc thi Hackathon EduTech", "Giải thưởng 100 triệu...", "05/12/2025", "20/12/2025", "https://devpost.com"));
-        mList.add(new Opportunity("Hội thảo AI Google", "Gặp gỡ chuyên gia Google...", "01/12/2025", "10/12/2025", "https://google.com"));
-
-        // 2. Gán Adapter ban đầu
         adapter = new OpportunityAdapter(mList, getContext());
         recyclerView.setAdapter(adapter);
 
-        // 3. Bắt sự kiện gõ chữ trong ô tìm kiếm
+        // Gọi API lấy dữ liệu
+        fetchOpportunities();
+
+        // Search client-side
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -52,7 +61,6 @@ public class OpportunitiesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Mỗi khi gõ 1 chữ, hàm này sẽ chạy
                 filterList(newText);
                 return true;
             }
@@ -61,24 +69,54 @@ public class OpportunitiesFragment extends Fragment {
         return view;
     }
 
-    // Hàm lọc danh sách
+    /**
+     * Gọi API GET /api/opportunity
+     */
+    private void fetchOpportunities() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        apiService.getAllOpportunities().enqueue(new Callback<List<Opportunity>>() {
+            @Override
+            public void onResponse(
+                    @NonNull Call<List<Opportunity>> call,
+                    @NonNull Response<List<Opportunity>> response
+            ) {
+                if (response.isSuccessful() && response.body() != null) {
+                    mList.clear();
+                    mList.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(),
+                            "Không tải được dữ liệu cơ hội",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    @NonNull Call<List<Opportunity>> call,
+                    @NonNull Throwable t
+            ) {
+                Toast.makeText(getContext(),
+                        "Lỗi kết nối server",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Lọc danh sách theo tiêu đề (client-side)
+     */
     private void filterList(String text) {
         List<Opportunity> filteredList = new ArrayList<>();
 
-        // Vòng lặp kiểm tra từng tin
         for (Opportunity item : mList) {
-            // Kiểm tra xem Tiêu đề có chứa từ khóa không (chuyển về chữ thường để so sánh)
-            if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
+            if (item.getTitle() != null &&
+                    item.getTitle().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
 
-        if (filteredList.isEmpty()) {
-            // Nếu không tìm thấy
-            Toast.makeText(getContext(), "Không tìm thấy kết quả", Toast.LENGTH_SHORT).show();
-        } else {
-            // Cập nhật Adapter
-            adapter.setFilteredList(filteredList);
-        }
+        adapter.setFilteredList(filteredList);
     }
 }

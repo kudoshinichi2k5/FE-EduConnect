@@ -1,6 +1,7 @@
 package com.example.doan;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Opportunity;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
@@ -28,14 +28,16 @@ import retrofit2.Response;
 
 public class OpportunitiesFragment extends Fragment {
 
+    private static final String TAG = "OpportunitiesFragment";
+
     private RecyclerView recyclerView;
     private OpportunityAdapter adapter;
     private SearchView searchView;
     private ChipGroup chipGroup;
-    private Chip chipAll, chipScholarship, chipContest, chipEvent;
 
-    // Danh sách gốc từ backend
-    private List<Opportunity> mList = new ArrayList<>();
+    // TÁCH 2 LIST: fullList để search, displayList để hiển thị
+    private final List<Opportunity> fullList = new ArrayList<>();
+    private final List<Opportunity> displayList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -46,22 +48,20 @@ public class OpportunitiesFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_opportunities, container, false);
 
+        // Init views
         recyclerView = view.findViewById(R.id.rvOpportunities);
         searchView = view.findViewById(R.id.searchView);
         chipGroup = view.findViewById(R.id.chipGroupFilter);
-        chipAll = view.findViewById(R.id.chipAll);
-        chipScholarship = view.findViewById(R.id.chipScholarship);
-        chipContest = view.findViewById(R.id.chipContest);
-        chipEvent = view.findViewById(R.id.chipEvent);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new OpportunityAdapter(mList, getContext());
+        // Setup RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        adapter = new OpportunityAdapter(displayList, requireActivity());
         recyclerView.setAdapter(adapter);
 
-        // Gọi API lấy dữ liệu
-        fetchOpportunities();
+        // Load tất cả opportunities lúc đầu
+        fetchAll();
 
-        // Search client-side
+        // Search listener (client-side search)
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -70,111 +70,146 @@ public class OpportunitiesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterList(newText);
+                applySearch(newText);
                 return true;
             }
         });
 
+        // Filter listener (backend API)
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            // Clear search khi đổi filter
+            searchView.setQuery("", false);
+            searchView.clearFocus();
+
+            // Log để debug
+            Log.d(TAG, "Chip clicked: " + checkedId);
+
             if (checkedId == R.id.chipAll) {
-                fetchOpportunities(); // GET /opportunity
+                Log.d(TAG, "Fetching ALL opportunities");
+                fetchAll();
             } else if (checkedId == R.id.chipScholarship) {
-                fetchOpportunitiesByType("scholarship");
+                Log.d(TAG, "Fetching SCHOLARSHIP opportunities");
+                fetchByType("scholarship");
             } else if (checkedId == R.id.chipContest) {
-                fetchOpportunitiesByType("contest");
+                Log.d(TAG, "Fetching CONTEST opportunities");
+                fetchByType("contest");
             } else if (checkedId == R.id.chipEvent) {
-                fetchOpportunitiesByType("event");
+                Log.d(TAG, "Fetching EVENT opportunities");
+                fetchByType("event");
             }
         });
 
         return view;
     }
 
-    /**
-     * Gọi API GET /api/opportunity
-     */
-    private void fetchOpportunities() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+    // ================= API CALLS =================
 
-        apiService.getAllOpportunities().enqueue(new Callback<List<Opportunity>>() {
-            @Override
-            public void onResponse(
-                    @NonNull Call<List<Opportunity>> call,
-                    @NonNull Response<List<Opportunity>> response
-            ) {
-                if (response.isSuccessful() && response.body() != null) {
-                    mList.clear();
-                    mList.addAll(response.body());
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getContext(),
-                            "Không tải được dữ liệu cơ hội",
-                            Toast.LENGTH_SHORT).show();
+    /**
+     * Lấy tất cả opportunities
+     */
+    private void fetchAll() {
+        Log.d(TAG, "fetchAll() called");
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Opportunity>> call = apiService.getAllOpportunities();
+
+        Log.d(TAG, "API URL: " + call.request().url());
+
+        call.enqueue(new OpportunityCallback());
+    }
+
+    /**
+     * Lọc theo type: scholarship, contest, event
+     */
+    private void fetchByType(String type) {
+        Log.d(TAG, "fetchByType() called with type: " + type);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Opportunity>> call = apiService.getOpportunitiesByType(type);
+
+        Log.d(TAG, "API URL: " + call.request().url());
+
+        call.enqueue(new OpportunityCallback());
+    }
+
+    // ================= COMMON CALLBACK =================
+
+    /**
+     * Callback chung cho cả fetchAll và fetchByType
+     */
+    private class OpportunityCallback implements Callback<List<Opportunity>> {
+        @Override
+        public void onResponse(
+                @NonNull Call<List<Opportunity>> call,
+                @NonNull Response<List<Opportunity>> response
+        ) {
+            Log.d(TAG, "onResponse - Code: " + response.code());
+
+            if (response.isSuccessful() && response.body() != null) {
+                List<Opportunity> data = response.body();
+                Log.d(TAG, "Data received: " + data.size() + " items");
+
+                // Log chi tiết các items
+                for (int i = 0; i < data.size(); i++) {
+                    Opportunity opp = data.get(i);
+                    Log.d(TAG, "Item " + i + ": " + opp.getTitle() + " - Type: " + opp.getType());
                 }
-            }
 
-            @Override
-            public void onFailure(
-                    @NonNull Call<List<Opportunity>> call,
-                    @NonNull Throwable t
-            ) {
+                // Update fullList
+                fullList.clear();
+                fullList.addAll(data);
+
+                // Update displayList
+                displayList.clear();
+                displayList.addAll(fullList);
+
+                // Notify adapter
+                adapter.notifyDataSetChanged();
+
+                Log.d(TAG, "Adapter updated. DisplayList size: " + displayList.size());
+            } else {
+                Log.e(TAG, "Response not successful. Code: " + response.code());
                 Toast.makeText(getContext(),
-                        "Lỗi kết nối server",
+                        "Lỗi tải dữ liệu: " + response.code(),
                         Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * Gọi API GET /api/opportunity/type/{type}
-     */
-    private void fetchOpportunitiesByType(String type) {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
-        apiService.getOpportunitiesByType(type)
-                .enqueue(new Callback<List<Opportunity>>() {
-                    @Override
-                    public void onResponse(
-                            @NonNull Call<List<Opportunity>> call,
-                            @NonNull Response<List<Opportunity>> response
-                    ) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            mList.clear();
-                            mList.addAll(response.body());
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(getContext(),
-                                    "Không tải được dữ liệu lọc",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(
-                            @NonNull Call<List<Opportunity>> call,
-                            @NonNull Throwable t
-                    ) {
-                        Toast.makeText(getContext(),
-                                "Lỗi kết nối server",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-
-    /**
-     * Lọc danh sách theo tiêu đề (client-side)
-     */
-    private void filterList(String text) {
-        List<Opportunity> filteredList = new ArrayList<>();
-
-        for (Opportunity item : mList) {
-            if (item.getTitle() != null &&
-                    item.getTitle().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
             }
         }
 
-        adapter.setFilteredList(filteredList);
+        @Override
+        public void onFailure(
+                @NonNull Call<List<Opportunity>> call,
+                @NonNull Throwable t
+        ) {
+            Log.e(TAG, "onFailure: " + t.getMessage(), t);
+            Toast.makeText(getContext(),
+                    "Lỗi kết nối: " + t.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // ================= CLIENT-SIDE SEARCH =================
+
+    /**
+     * Search trên fullList (client-side)
+     */
+    private void applySearch(String keyword) {
+        Log.d(TAG, "applySearch() with keyword: " + keyword);
+
+        displayList.clear();
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            displayList.addAll(fullList);
+        } else {
+            String lowerKeyword = keyword.toLowerCase();
+            for (Opportunity o : fullList) {
+                if (o.getTitle() != null &&
+                        o.getTitle().toLowerCase().contains(lowerKeyword)) {
+                    displayList.add(o);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+        Log.d(TAG, "Search result: " + displayList.size() + " items");
     }
 }

@@ -46,6 +46,8 @@ public class ChatbotFragment extends Fragment {
         btnSendChat = view.findViewById(R.id.btnSendChat);
         btnBackChat = view.findViewById(R.id.btnBackChat);
 
+        rvChatMessages.setNestedScrollingEnabled(false);
+
         // 2. Setup RecyclerView
         messageList = new ArrayList<>();
         // Tin nhắn chào mừng mặc định

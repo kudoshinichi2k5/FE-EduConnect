@@ -1,64 +1,78 @@
 package com.example.doan;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.doan.R;
+import com.example.doan.model.ChatMessage;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatbotFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ChatbotFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView rvChatMessages;
+    private EditText edtChatInput;
+    private ImageView btnSendChat, btnBackChat;
+    private ChatAdapter chatAdapter;
+    private List<ChatMessage> messageList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ChatbotFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatbotFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatbotFragment newInstance(String param1, String param2) {
-        ChatbotFragment fragment = new ChatbotFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chatbot, container, false);
+
+        // 1. Ánh xạ
+        rvChatMessages = view.findViewById(R.id.rvChatMessages);
+        edtChatInput = view.findViewById(R.id.edtChatInput);
+        btnSendChat = view.findViewById(R.id.btnSendChat);
+        btnBackChat = view.findViewById(R.id.btnBackChat);
+
+        // 2. Setup RecyclerView
+        messageList = new ArrayList<>();
+        // Tin nhắn chào mừng mặc định
+        messageList.add(new ChatMessage("Xin chào! Tôi là trợ lý AI EduConnect. Tôi có thể giúp gì cho bạn hôm nay?", false));
+
+        chatAdapter = new ChatAdapter(messageList);
+        rvChatMessages.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvChatMessages.setAdapter(chatAdapter);
+
+        // 3. Xử lý nút Gửi
+        btnSendChat.setOnClickListener(v -> sendMessage());
+
+        // 4. Xử lý nút Back (Quay lại Home)
+        btnBackChat.setOnClickListener(v -> {
+            if (getActivity() instanceof Home) {
+                ((Home) getActivity()).switchToTab(R.id.nav_home);
+            }
+        });
+
+        return view;
+    }
+
+    private void sendMessage() {
+        String text = edtChatInput.getText().toString().trim();
+        if (!text.isEmpty()) {
+            // 1. Thêm tin nhắn User vào list
+            messageList.add(new ChatMessage(text, true));
+            chatAdapter.notifyItemInserted(messageList.size() - 1);
+            rvChatMessages.scrollToPosition(messageList.size() - 1);
+            edtChatInput.setText("");
+
+            // 2. Giả lập Bot trả lời sau 1 giây
+            new Handler().postDelayed(() -> {
+                messageList.add(new ChatMessage("Đây là tin nhắn trả lời tự động. Chức năng AI đang được phát triển!", false));
+                chatAdapter.notifyItemInserted(messageList.size() - 1);
+                rvChatMessages.scrollToPosition(messageList.size() - 1);
+            }, 1000);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chatbot, container, false);
     }
 }

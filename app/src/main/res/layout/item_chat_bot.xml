@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/tvBotMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_chat_bubble_bot"
+        android:maxWidth="270dp"
+        android:layout_marginStart="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="Xin chào! Tôi là trợ lý AI EduConnect."
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:lineSpacingExtra="2dp"
+        app:layout_constraintStart_toEndOf="@id/cardBotAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardBotAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvBotMessage"
+        app:layout_constraintBottom_toBottomOf="@+id/tvBotMessage">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_edu"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

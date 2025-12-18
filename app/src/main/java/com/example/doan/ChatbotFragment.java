@@ -13,9 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.doan.R;
+import com.example.doan.api.ApiClient;
+import com.example.doan.api.ApiService;
 import com.example.doan.model.ChatMessage;
+import com.example.doan.model.ChatbotRequest;
+import com.example.doan.model.ChatbotResponse;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatbotFragment extends Fragment {
 
@@ -60,19 +69,57 @@ public class ChatbotFragment extends Fragment {
 
     private void sendMessage() {
         String text = edtChatInput.getText().toString().trim();
-        if (!text.isEmpty()) {
-            // 1. Thêm tin nhắn User vào list
-            messageList.add(new ChatMessage(text, true));
-            chatAdapter.notifyItemInserted(messageList.size() - 1);
-            rvChatMessages.scrollToPosition(messageList.size() - 1);
-            edtChatInput.setText("");
+        if (text.isEmpty()) return;
 
-            // 2. Giả lập Bot trả lời sau 1 giây
-            new Handler().postDelayed(() -> {
-                messageList.add(new ChatMessage("Đây là tin nhắn trả lời tự động. Chức năng AI đang được phát triển!", false));
-                chatAdapter.notifyItemInserted(messageList.size() - 1);
-                rvChatMessages.scrollToPosition(messageList.size() - 1);
-            }, 1000);
-        }
+        // 1. Add user message
+        messageList.add(new ChatMessage(text, true));
+        chatAdapter.notifyItemInserted(messageList.size() - 1);
+        rvChatMessages.scrollToPosition(messageList.size() - 1);
+        edtChatInput.setText("");
+
+        // 2. Add bot typing indicator
+        ChatMessage typingMsg = new ChatMessage("Đang suy nghĩ...", false);
+        messageList.add(typingMsg);
+        chatAdapter.notifyItemInserted(messageList.size() - 1);
+        rvChatMessages.scrollToPosition(messageList.size() - 1);
+
+        // 3. Call API backend
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        apiService.askChatbot(new ChatbotRequest(text))
+                .enqueue(new Callback<ChatbotResponse>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<ChatbotResponse> call,
+                            @NonNull Response<ChatbotResponse> response
+                    ) {
+                        // Remove typing
+                        messageList.remove(typingMsg);
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            messageList.add(
+                                    new ChatMessage(response.body().getAnswer(), false)
+                            );
+                        } else {
+                            messageList.add(
+                                    new ChatMessage("Xin lỗi, tôi chưa thể trả lời lúc này.", false)
+                            );
+                        }
+
+                        chatAdapter.notifyDataSetChanged();
+                        rvChatMessages.scrollToPosition(messageList.size() - 1);
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<ChatbotResponse> call,
+                            @NonNull Throwable t
+                    ) {
+                        messageList.remove(typingMsg);
+                        messageList.add(
+                                new ChatMessage("Lỗi kết nối server.", false)
+                        );
+                        chatAdapter.notifyDataSetChanged();
+                    }
+                });
     }
 }

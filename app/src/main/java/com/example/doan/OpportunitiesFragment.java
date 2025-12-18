@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Opportunity;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,8 @@ public class OpportunitiesFragment extends Fragment {
     private RecyclerView recyclerView;
     private OpportunityAdapter adapter;
     private SearchView searchView;
+    private ChipGroup chipGroup;
+    private Chip chipAll, chipScholarship, chipContest, chipEvent;
 
     // Danh sách gốc từ backend
     private List<Opportunity> mList = new ArrayList<>();
@@ -44,6 +48,11 @@ public class OpportunitiesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rvOpportunities);
         searchView = view.findViewById(R.id.searchView);
+        chipGroup = view.findViewById(R.id.chipGroupFilter);
+        chipAll = view.findViewById(R.id.chipAll);
+        chipScholarship = view.findViewById(R.id.chipScholarship);
+        chipContest = view.findViewById(R.id.chipContest);
+        chipEvent = view.findViewById(R.id.chipEvent);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new OpportunityAdapter(mList, getContext());
@@ -63,6 +72,18 @@ public class OpportunitiesFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 filterList(newText);
                 return true;
+            }
+        });
+
+        chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.chipAll) {
+                fetchOpportunities(); // GET /opportunity
+            } else if (checkedId == R.id.chipScholarship) {
+                fetchOpportunitiesByType("scholarship");
+            } else if (checkedId == R.id.chipContest) {
+                fetchOpportunitiesByType("contest");
+            } else if (checkedId == R.id.chipEvent) {
+                fetchOpportunitiesByType("event");
             }
         });
 
@@ -103,6 +124,43 @@ public class OpportunitiesFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * Gọi API GET /api/opportunity/type/{type}
+     */
+    private void fetchOpportunitiesByType(String type) {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        apiService.getOpportunitiesByType(type)
+                .enqueue(new Callback<List<Opportunity>>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<List<Opportunity>> call,
+                            @NonNull Response<List<Opportunity>> response
+                    ) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            mList.clear();
+                            mList.addAll(response.body());
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(),
+                                    "Không tải được dữ liệu lọc",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<List<Opportunity>> call,
+                            @NonNull Throwable t
+                    ) {
+                        Toast.makeText(getContext(),
+                                "Lỗi kết nối server",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     /**
      * Lọc danh sách theo tiêu đề (client-side)

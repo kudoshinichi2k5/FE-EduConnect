@@ -36,6 +36,13 @@ public interface ApiService {
     @GET("opportunity")
     Call<List<Opportunity>> getAllOpportunities();
 
+    @GET("opportunity/type/{type}")
+    Call<List<Opportunity>> getOpportunitiesByType(
+            @Path("type") String type
+    );
+
     @GET("opportunity/{id}")
     Call<Opportunity> getOpportunityById(@Path("id") String id);
+
+
 }

@@ -1,10 +1,13 @@
 package com.example.doan;
 
+import android.content.Context; // Import mới
+import android.content.SharedPreferences; // Import mới
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView; // Import mới
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,18 +20,37 @@ public class HomeFragment extends Fragment {
 
     RecyclerView rvArticles;
     LinearLayout btnCohol, btnChat;
+    TextView tvHelloUser; // <--- 1. KHAI BÁO BIẾN HIỂN THỊ TÊN
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // 1. Ánh xạ
+        // 2. ÁNH XẠ VIEW
         rvArticles = view.findViewById(R.id.rvArticles);
         btnCohol = view.findViewById(R.id.btnGoToOpportunities);
         btnChat = view.findViewById(R.id.btnGoToChat);
+        tvHelloUser = view.findViewById(R.id.tvHelloUser); // <--- Tìm TextView bên layout XML
 
-        // 2. Setup List Bài viết (Fake data)
+        // ==================================================================
+        // 3. CODE MỚI: ĐỌC TÊN TỪ BỘ NHỚ VÀ HIỂN THỊ
+        // ==================================================================
+
+        // Mở file "UserPrefs" (Phải trùng tên với bên Login.java)
+        if (getActivity() != null) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
+            // Lấy dữ liệu với key "USERNAME" (Phải trùng key bên Login.java)
+            String username = sharedPreferences.getString("USERNAME", "Bạn");
+
+            // Gán lên màn hình
+            tvHelloUser.setText("Xin chào, " + username + "! 👋");
+        }
+        // ==================================================================
+
+
+        // 4. Setup List Bài viết (Fake data - Giữ nguyên code của bạn)
         rvArticles.setLayoutManager(new LinearLayoutManager(getContext()));
         List<Article> articles = new ArrayList<>();
         articles.add(new Article("Phương pháp Pomodoro là gì?", "Cách quản lý thời gian hiệu quả cho sinh viên mùa thi."));
@@ -39,16 +61,13 @@ public class HomeFragment extends Fragment {
         ArticleAdapter adapter = new ArticleAdapter(articles);
         rvArticles.setAdapter(adapter);
 
-        // 3. Xử lý sự kiện bấm nút
-
-        // Bấm nút "Khám phá Cơ hội" -> Chuyển sang Tab Cơ hội
+        // 5. Xử lý sự kiện bấm nút (Giữ nguyên code của bạn)
         btnCohol.setOnClickListener(v -> {
             if (getActivity() instanceof Home) {
                 ((Home) getActivity()).switchToTab(R.id.nav_opportunities);
             }
         });
 
-        // Bấm nút "Chat ngay" -> Chuyển sang Tab Chatbot
         btnChat.setOnClickListener(v -> {
             if (getActivity() instanceof Home) {
                 ((Home) getActivity()).switchToTab(R.id.nav_chatbot);

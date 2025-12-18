@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F9FF">
@@ -28,7 +29,42 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_overlay" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="60dp">
+
+                <TextView
+                    android:id="@+id/tvHelloUser"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Xin chào, Bạn! 👋"
+                    tools:text="Xin chào, Minh! 👋"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvGreetingSub" />
+
+                <TextView
+                    android:id="@+id/tvGreetingSub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Chúc bạn một ngày học tập tốt lành."
+                    android:textColor="#E0E0E0"
+                    android:textSize="15sp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </FrameLayout>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,86 +73,88 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="8dp"
             app:cardBackgroundColor="#FFFFFF"
-            android:layout_marginTop="-40dp"> <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cơ Hội Cùng EduConnect"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#FF9800"
-                android:gravity="center"
-                android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="-40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cơ Hội Cùng EduConnect"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#FF9800"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"/>
 
                 <LinearLayout
-                    android:id="@+id/btnGoToOpportunities"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@android:drawable/ic_menu_search"
-                        app:tint="#0056D2"
-                        android:background="@drawable/circle_bg_light_blue"
-                        android:padding="12dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/btnGoToOpportunities"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Khám phá\nCơ hội"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#333"
-                        android:layout_marginTop="10dp"/>
-                </LinearLayout>
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true">
 
-                <LinearLayout
-                    android:id="@+id/btnGoToChat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true">
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@android:drawable/ic_menu_search"
+                            app:tint="#0056D2"
+                            android:background="@drawable/circle_bg_light_blue"
+                            android:padding="12dp"/>
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@android:drawable/stat_notify_chat"
-                        app:tint="#4CAF50"
-                        android:background="@drawable/circle_bg_light_green"
-                        android:padding="12dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Khám phá\nCơ hội"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333"
+                            android:layout_marginTop="10dp"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/btnGoToChat"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Trợ lý AI\nChat ngay"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
                         android:gravity="center"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#333"
-                        android:layout_marginTop="10dp"/>
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@android:drawable/stat_notify_chat"
+                            app:tint="#4CAF50"
+                            android:background="@drawable/circle_bg_light_green"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trợ lý AI\nChat ngay"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333"
+                            android:layout_marginTop="10dp"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <TextView

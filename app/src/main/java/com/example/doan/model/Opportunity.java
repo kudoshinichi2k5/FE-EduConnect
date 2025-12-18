@@ -1,45 +1,39 @@
 package com.example.doan.model;
+import com.google.gson.annotations.SerializedName;
 
 public class Opportunity {
 
-    private String MaTinTuc;
-    private String Title;
-    private String Description;
-    private String Content_url;
-    private String Image_url;
-    private String Type;
-    private String Deadline;
-    private String Created_at;
+    @SerializedName("MaTinTuc")
+    private String maTinTuc;
 
-    public String getMaTinTuc() {
-        return MaTinTuc;
-    }
+    @SerializedName("Title")
+    private String title;
 
-    public String getTitle() {
-        return Title;
-    }
+    @SerializedName("Description")
+    private String description;
 
-    public String getDescription() {
-        return Description;
-    }
+    @SerializedName("Content_url")
+    private String contentUrl;
 
-    public String getContentUrl() {
-        return Content_url;
-    }
+    @SerializedName("Image_url")
+    private String imageUrl;
 
-    public String getImageUrl() {
-        return Image_url;
-    }
+    @SerializedName("Type")
+    private String type;
 
-    public String getType() {
-        return Type;
-    }
+    @SerializedName("Deadline")
+    private String deadline;
 
-    public String getDeadline() {
-        return Deadline;
-    }
+    @SerializedName("Created_at")
+    private String createdAt;
 
-    public String getCreatedAt() {
-        return Created_at;
-    }
+    // ===== GETTERS =====
+    public String getMaTinTuc() { return maTinTuc; }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public String getContentUrl() { return contentUrl; }
+    public String getImageUrl() { return imageUrl; }
+    public String getType() { return type; }
+    public String getDeadline() { return deadline; }
+    public String getCreatedAt() { return createdAt; }
 }

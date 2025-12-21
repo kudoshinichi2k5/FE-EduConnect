@@ -17,26 +17,29 @@ import retrofit2.Response;
 
 public class ArticleDetailActivity extends AppCompatActivity {
 
-    TextView tvTitle, tvContent;
+    TextView tvTitle, tvContent, tvCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
-        tvTitle = findViewById(R.id.tvArticleTitle);
-        tvContent = findViewById(R.id.tvArticleContent);
+        tvTitle = findViewById(R.id.tvDetailTitle);
+        tvContent = findViewById(R.id.tvDetailContent);
+        tvCategory = findViewById(R.id.tvDetailCategory);
 
-        String articleId = getIntent().getStringExtra("ARTICLE_ID");
-        if (articleId == null) {
+        String maBaiViet = getIntent().getStringExtra("MA_BAI_VIET");
+
+        if (maBaiViet == null) {
+            Toast.makeText(this, "Không tìm thấy bài viết", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        loadDetail(articleId);
+        fetchArticleDetail(maBaiViet);
     }
 
-    private void loadDetail(String id) {
+    private void fetchArticleDetail(String id) {
         ApiClient.getClient()
                 .create(ApiService.class)
                 .getArticleById(id)
@@ -47,8 +50,16 @@ public class ArticleDetailActivity extends AppCompatActivity {
                             @NonNull Response<Article> response
                     ) {
                         if (response.isSuccessful() && response.body() != null) {
-                            tvTitle.setText(response.body().getTitle());
-                            tvContent.setText(response.body().getContent());
+                            Article article = response.body();
+                            tvTitle.setText(article.getTitle());
+                            tvContent.setText(article.getContent());
+                            tvCategory.setText(article.getCategory());
+                        } else {
+                            Toast.makeText(
+                                    ArticleDetailActivity.this,
+                                    "Không tải được bài viết",
+                                    Toast.LENGTH_SHORT
+                            ).show();
                         }
                     }
 
@@ -59,7 +70,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     ) {
                         Toast.makeText(
                                 ArticleDetailActivity.this,
-                                "Lỗi tải chi tiết",
+                                "Lỗi kết nối server",
                                 Toast.LENGTH_SHORT
                         ).show();
                     }

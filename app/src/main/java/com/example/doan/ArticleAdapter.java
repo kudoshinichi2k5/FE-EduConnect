@@ -16,11 +16,11 @@ import java.util.List;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
 
-    private final List<Article> list;
+    private final List<Article> articleList;
     private final Context context;
 
-    public ArticleAdapter(List<Article> list, Context context) {
-        this.list = list;
+    public ArticleAdapter(List<Article> articleList, Context context) {
+        this.articleList = articleList;
         this.context = context;
     }
 
@@ -34,14 +34,15 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Article article = list.get(position);
+        Article article = articleList.get(position);
 
         holder.tvTitle.setText(article.getTitle());
         holder.tvCategory.setText(article.getCategory());
 
+        // ✅ CLICK → MỞ DETAIL
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ArticleDetailActivity.class);
-            intent.putExtra("ARTICLE_ID", article.getMaBaiViet());
+            intent.putExtra("MA_BAI_VIET", article.getMaBaiViet());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
@@ -49,13 +50,13 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return articleList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvCategory;
 
-        ViewHolder(View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvArticleTitle);
             tvCategory = itemView.findViewById(R.id.tvArticleCategory);

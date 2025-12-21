@@ -10,20 +10,33 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvArticleTitle"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#333"
+            android:id="@+id/tvDetailTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Tiêu đề bài viết"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/tvArticleContent"
-            android:layout_marginTop="16dp"
-            android:textSize="15sp"
-            android:textColor="#444"
+            android:id="@+id/tvDetailCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textSize="14sp"
+            android:textColor="#FF9800"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvDetailContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Nội dung bài viết"
+            android:textSize="16sp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="#444444" />
 
     </LinearLayout>
+
 </ScrollView>

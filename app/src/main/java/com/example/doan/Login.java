@@ -271,6 +271,8 @@ public class Login extends AppCompatActivity {
 
         Log.d("LOGIN_DEBUG", "Đang lưu tên: " + finalName); // Log để kiểm tra
         editor.putString("USERNAME", finalName);
+        String emailToSave = (user.getEmail() != null) ? user.getEmail() : "";
+        editor.putString("EMAIL", emailToSave);
         editor.apply();
 
         // --- BƯỚC C: CHUYỂN TRANG ---

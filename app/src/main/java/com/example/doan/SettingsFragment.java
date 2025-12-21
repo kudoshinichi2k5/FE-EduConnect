@@ -1,64 +1,136 @@
 package com.example.doan;
-
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.doan.Login; // Import màn hình Login
+import com.example.doan.R;
+
 public class SettingsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Khai báo View
+    private TextView tvName, tvEmail;
+    private TextView btnEditProfile, btnChangePass, btnLanguage, btnAbout;
+    private Switch switchNotif;
+    private Button btnLogout;
+    private ImageView imgAvatar;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        initViews(view);
+        loadUserData();
+        setupEvents();
+
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+    private void initViews(View view) {
+        tvName = view.findViewById(R.id.tvSettingName);
+        tvEmail = view.findViewById(R.id.tvSettingEmail);
+        imgAvatar = view.findViewById(R.id.imgAvatar);
+
+        btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        btnChangePass = view.findViewById(R.id.btnChangePassword);
+        btnLanguage = view.findViewById(R.id.btnLanguage);
+        btnAbout = view.findViewById(R.id.btnAbout);
+
+        switchNotif = view.findViewById(R.id.switchNotification);
+        btnLogout = view.findViewById(R.id.btnLogout);
+    }
+
+    // 1. LẤY THÔNG TIN USER TỪ SHAREDPREF HIỆN LÊN GIAO DIỆN
+    private void loadUserData() {
+        if (getActivity() == null) return;
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+
+        // Lấy tên và email (Giá trị mặc định là chuỗi rỗng nếu chưa có)
+        String name = sharedPreferences.getString("USERNAME", "Người dùng");
+        String email = sharedPreferences.getString("EMAIL", "user@email.com");
+
+        tvName.setText(name);
+        tvEmail.setText(email);
+
+        // (Tùy chọn) Nếu bạn có lưu link Avatar thì dùng Glide load vào imgAvatar ở đây
+    }
+
+    private void setupEvents() {
+
+        // Nút chỉnh sửa thông tin
+        btnEditProfile.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+            // Sau này bạn StartActivity sang màn hình EditProfileActivity tại đây
+        });
+
+        // Nút đổi ngôn ngữ
+        btnLanguage.setOnClickListener(v -> showLanguageDialog());
+
+        // Nút thông báo
+        switchNotif.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) Toast.makeText(getContext(), "Đã BẬT thông báo", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(getContext(), "Đã TẮT thông báo", Toast.LENGTH_SHORT).show();
+        });
+
+        // NÚT ĐĂNG XUẤT (QUAN TRỌNG)
+        btnLogout.setOnClickListener(v -> showLogoutConfirmation());
+    }
+
+    // Hộp thoại chọn ngôn ngữ
+    private void showLanguageDialog() {
+        String[] languages = {"Tiếng Việt", "English", "日本語"};
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Chọn ngôn ngữ")
+                .setItems(languages, (dialog, which) -> {
+                    Toast.makeText(getContext(), "Đã chọn: " + languages[which], Toast.LENGTH_SHORT).show();
+                    // Code xử lý đổi Locale ở đây (phức tạp hơn, cần restart app)
+                })
+                .show();
+    }
+
+    // Xác nhận đăng xuất
+    private void showLogoutConfirmation() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> performLogout())
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    // Xử lý Logic đăng xuất thật
+    private void performLogout() {
+        if (getActivity() == null) return;
+
+        // 1. Xóa session trong SharedPreferences
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Xóa sạch dữ liệu
+        editor.apply();
+
+        // 2. Chuyển về màn hình Login
+        Intent intent = new Intent(getActivity(), Login.class);
+        // Cờ này để xóa hết các Activity cũ, ngăn người dùng bấm Back để quay lại
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+
+        Toast.makeText(getContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
     }
 }

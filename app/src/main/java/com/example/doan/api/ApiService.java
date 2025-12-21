@@ -1,5 +1,6 @@
 package com.example.doan.api;
 
+import com.example.doan.model.Article;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
@@ -48,4 +49,10 @@ public interface ApiService {
 
     @POST("chatbot/ask")
     Call<ChatbotResponse> askChatbot(@Body ChatbotRequest request);
+
+    @GET("article")
+    Call<List<Article>> getAllArticles();
+
+    @GET("article/{id}")
+    Call<Article> getArticleById(@Path("id") String id);
 }

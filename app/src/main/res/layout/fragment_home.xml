@@ -182,6 +182,36 @@
                             android:textColor="#333"
                             android:layout_marginTop="10dp"/>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnGoToBookmark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@drawable/ic_bookmark_filled"
+                            app:tint="#FF9800"
+                            android:background="@drawable/circle_bg_light_orange"
+                            android:padding="12dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bài viết\nĐã lưu"
+                            android:gravity="center"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#333"
+                            android:layout_marginTop="10dp"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

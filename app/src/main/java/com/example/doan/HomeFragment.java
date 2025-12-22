@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     private RecyclerView rvArticles;
-    private LinearLayout btnCohol, btnChat, btnFindMentor;
+    private LinearLayout btnCohol, btnChat, btnFindMentor, btnBookmark;
     private TextView tvHelloUser;
     private ArticleAdapter articleAdapter;
     private final List<Article> articleList = new ArrayList<>();
@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
         btnChat = view.findViewById(R.id.btnGoToChat);
         btnFindMentor = view.findViewById(R.id.btnFindMentor);
         tvHelloUser = view.findViewById(R.id.tvHelloUser);
+        btnBookmark = view.findViewById(R.id.btnGoToBookmark);
 
         if (getActivity() != null) {
             SharedPreferences prefs = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
@@ -60,6 +61,17 @@ public class HomeFragment extends Fragment {
                     .replace(R.id.frame_container, new MentorListFragment())
                     .addToBackStack(null)
                     .commit();
+        });
+
+        btnBookmark.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_container, new BookmarkFragment())
+                        .addToBackStack(null) // QUAN TRỌNG
+                        .commit();
+            }
         });
 
         return view;

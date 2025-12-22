@@ -25,6 +25,9 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     Button btnRegister;
     ImageView ivBack;
 
+    ImageView ivBookmark;
+    boolean isBookmarked = false; // trạng thái hiện tại
+
     String maTinTuc;
     String linkUrl = "";
 
@@ -34,6 +37,21 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opportunity_detail);
 
         mapping();
+
+        // Bookmark mac dinh
+        ivBookmark = findViewById(R.id.ivBookmark);
+
+        ivBookmark.setOnClickListener(v -> {
+            if (isBookmarked) {
+                // Bỏ bookmark (UI)
+                ivBookmark.setImageResource(R.drawable.ic_bookmark_border);
+                isBookmarked = false;
+            } else {
+                // Thêm bookmark (UI)
+                ivBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+                isBookmarked = true;
+            }
+        });
 
         // 1. Nhận MaTinTuc từ Intent
         maTinTuc = getIntent().getStringExtra("MA_TIN_TUC");
@@ -116,5 +134,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         tvDesc = findViewById(R.id.tvDetailDesc);
         btnRegister = findViewById(R.id.btnRegister);
         ivBack = findViewById(R.id.ivBack);
+        ivBookmark = findViewById(R.id.ivBookmark);
     }
 }

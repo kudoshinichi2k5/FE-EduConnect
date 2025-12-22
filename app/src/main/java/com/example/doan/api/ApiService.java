@@ -7,6 +7,7 @@ import com.example.doan.model.BookmarkListResponse;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
+import com.example.doan.model.Mentor;
 import com.example.doan.model.RegisterRequest;
 import com.example.doan.model.Opportunity;
 
@@ -78,6 +79,6 @@ public interface ApiService {
     Call<BookmarkListResponse> getBookmarksByUser(
             @Path("uid") String uid
     );
-
+    @GET("mentors")
+    Call<List<Mentor>> getAllMentors();
 }
-

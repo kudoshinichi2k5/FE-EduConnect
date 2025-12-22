@@ -94,7 +94,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:id="@+id/btnGoToOpportunities"
@@ -119,7 +120,35 @@
                             android:layout_height="wrap_content"
                             android:text="Khám phá\nCơ hội"
                             android:gravity="center"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#333"
+                            android:layout_marginTop="10dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnFindMentor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="#7B1FA2"
+                            android:background="#F3E5F5"
+                            android:padding="12dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tìm kiếm\nMentor"
+                            android:gravity="center"
+                            android:textSize="13sp"
                             android:textStyle="bold"
                             android:textColor="#333"
                             android:layout_marginTop="10dp"/>
@@ -148,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:text="Trợ lý AI\nChat ngay"
                             android:gravity="center"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
                             android:textStyle="bold"
                             android:textColor="#333"
                             android:layout_marginTop="10dp"/>

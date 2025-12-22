@@ -51,4 +51,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.2")
 // Thư viện Google Sign In (Để đăng nhập bằng Gmail)
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    // Thư viện load ảnh
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+    // Thư viện ảnh tròn (tùy chọn, nếu không có thì dùng CardView bo tròn)
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }

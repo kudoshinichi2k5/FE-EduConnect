@@ -4,6 +4,7 @@ import com.example.doan.model.Article;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
+import com.example.doan.model.Mentor;
 import com.example.doan.model.RegisterRequest;
 import com.example.doan.model.Opportunity;
 
@@ -55,4 +56,6 @@ public interface ApiService {
 
     @GET("article/{id}")
     Call<Article> getArticleById(@Path("id") String id);
+    @GET("mentors")
+    Call<List<Mentor>> getAllMentors();
 }

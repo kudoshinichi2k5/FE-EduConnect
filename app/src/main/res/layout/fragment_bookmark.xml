@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cơ hội đã lưu"
+        android:text="Bài viết đã lưu"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#0056D2"

@@ -1,6 +1,9 @@
 package com.example.doan.api;
 
 import com.example.doan.model.Article;
+import com.example.doan.model.BookmarkCheckResponse;
+import com.example.doan.model.BookmarkRequest;
+import com.example.doan.model.BookmarkListResponse;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
@@ -10,11 +13,13 @@ import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import java.util.List;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * ApiService
@@ -56,6 +61,24 @@ public interface ApiService {
 
     @GET("article/{id}")
     Call<Article> getArticleById(@Path("id") String id);
+
+    // Bookmark
+    @GET("bookmark/check")
+    Call<BookmarkCheckResponse> checkBookmark(
+            @Query("MaNguoiDung") String maNguoiDung,
+            @Query("MaTinTuc") String maTinTuc
+    );
+
+    @POST("bookmark/add")
+    Call<Void> addBookmark(@Body BookmarkRequest request);
+
+    @HTTP(method = "DELETE", path = "bookmark/remove", hasBody = true)
+    Call<Void> removeBookmark(@Body BookmarkRequest request);
+
+    @GET("bookmark/user/{uid}")
+    Call<BookmarkListResponse> getBookmarksByUser(
+            @Path("uid") String uid
+    );
     @GET("mentors")
     Call<List<Mentor>> getAllMentors();
 }

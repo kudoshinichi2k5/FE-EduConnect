@@ -2,6 +2,7 @@ package com.example.doan.api;
 
 import com.example.doan.model.Article;
 import com.example.doan.model.BookmarkCheckResponse;
+import com.example.doan.model.BookmarkRequest;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
@@ -10,6 +11,7 @@ import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import java.util.List;
@@ -64,4 +66,11 @@ public interface ApiService {
             @Query("MaNguoiDung") String maNguoiDung,
             @Query("MaTinTuc") String maTinTuc
     );
+
+    @POST("bookmark/add")
+    Call<Void> addBookmark(@Body BookmarkRequest request);
+
+    @HTTP(method = "DELETE", path = "bookmark/remove", hasBody = true)
+    Call<Void> removeBookmark(@Body BookmarkRequest request);
 }
+

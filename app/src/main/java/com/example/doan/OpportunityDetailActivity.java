@@ -1,6 +1,7 @@
 package com.example.doan;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
+import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
@@ -28,6 +30,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     ImageView ivBookmark;
     boolean isBookmarked = false; // trạng thái hiện tại
 
+    private String maNguoiDung;
+
     String maTinTuc;
     String linkUrl = "";
 
@@ -37,6 +41,13 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opportunity_detail);
 
         mapping();
+
+        SharedPreferences sp =
+                getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+        maNguoiDung = sp.getString("USER_ID", "");
+
+        checkBookmarkStatus(maNguoiDung, maTinTuc);
 
         // Bookmark mac dinh
         ivBookmark = findViewById(R.id.ivBookmark);
@@ -126,6 +137,37 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void checkBookmarkStatus(String maNguoiDung, String maTinTuc) {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        apiService.checkBookmark(maNguoiDung, maTinTuc)
+                .enqueue(new Callback<BookmarkCheckResponse>() {
+                    @Override
+                    public void onResponse(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Response<BookmarkCheckResponse> response
+                    ) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            isBookmarked = response.body().isBookmarked();
+                            ivBookmark.setImageResource(
+                                    isBookmarked
+                                            ? R.drawable.ic_bookmark_filled
+                                            : R.drawable.ic_bookmark_border
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Throwable t
+                    ) {
+                        // Không làm gì, giữ icon mặc định
+                    }
+                });
+    }
+
 
     private void mapping() {
         tvTitle = findViewById(R.id.tvDetailTitle);

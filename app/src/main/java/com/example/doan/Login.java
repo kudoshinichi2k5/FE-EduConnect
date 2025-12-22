@@ -273,6 +273,8 @@ public class Login extends AppCompatActivity {
         editor.putString("USERNAME", finalName);
         String emailToSave = (user.getEmail() != null) ? user.getEmail() : "";
         editor.putString("EMAIL", emailToSave);
+        editor.putString("USER_ID", user.getUid());
+
         editor.apply();
 
         // --- BƯỚC C: CHUYỂN TRANG ---

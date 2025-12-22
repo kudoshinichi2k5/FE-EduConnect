@@ -1,6 +1,7 @@
 package com.example.doan.api;
 
 import com.example.doan.model.Article;
+import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
@@ -14,6 +15,7 @@ import retrofit2.http.POST;
 import java.util.List;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * ApiService
@@ -55,4 +57,11 @@ public interface ApiService {
 
     @GET("article/{id}")
     Call<Article> getArticleById(@Path("id") String id);
+
+    // Bookmark
+    @GET("bookmark/check")
+    Call<BookmarkCheckResponse> checkBookmark(
+            @Query("MaNguoiDung") String maNguoiDung,
+            @Query("MaTinTuc") String maTinTuc
+    );
 }

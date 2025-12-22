@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.BookmarkCheckResponse;
+import com.example.doan.model.BookmarkRequest;
 import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
@@ -48,6 +49,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         maNguoiDung = sp.getString("USER_ID", "");
 
         checkBookmarkStatus(maNguoiDung, maTinTuc);
+
+        ivBookmark.setOnClickListener(v -> toggleBookmark());
 
         // Bookmark mac dinh
         ivBookmark = findViewById(R.id.ivBookmark);
@@ -166,6 +169,57 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                         // Không làm gì, giữ icon mặc định
                     }
                 });
+    }
+
+    private void toggleBookmark() {
+        ApiService apiService =
+                ApiClient.getClient().create(ApiService.class);
+
+        BookmarkRequest request =
+                new BookmarkRequest(maNguoiDung, maTinTuc);
+
+        if (!isBookmarked) {
+            // ADD BOOKMARK
+            apiService.addBookmark(request)
+                    .enqueue(new retrofit2.Callback<Void>() {
+                        @Override
+                        public void onResponse(
+                                Call<Void> call,
+                                Response<Void> response
+                        ) {
+                            if (response.isSuccessful()) {
+                                isBookmarked = true;
+                                ivBookmark.setImageResource(
+                                        R.drawable.ic_bookmark_filled
+                                );
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) { }
+                    });
+
+        } else {
+            // REMOVE BOOKMARK
+            apiService.removeBookmark(request)
+                    .enqueue(new retrofit2.Callback<Void>() {
+                        @Override
+                        public void onResponse(
+                                Call<Void> call,
+                                Response<Void> response
+                        ) {
+                            if (response.isSuccessful()) {
+                                isBookmarked = false;
+                                ivBookmark.setImageResource(
+                                        R.drawable.ic_bookmark_border
+                                );
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) { }
+                    });
+        }
     }
 
 

@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private RecyclerView rvArticles;
-    private LinearLayout btnCohol, btnChat;
+    private LinearLayout btnCohol, btnChat, btnBookmark;
     private TextView tvHelloUser;
 
     private ArticleAdapter articleAdapter;
@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
         btnCohol = view.findViewById(R.id.btnGoToOpportunities);
         btnChat = view.findViewById(R.id.btnGoToChat);
         tvHelloUser = view.findViewById(R.id.tvHelloUser);
+        btnBookmark = view.findViewById(R.id.btnGoToBookmark);
 
         // ================== HIỂN THỊ TÊN USER ==================
         if (getActivity() != null) {
@@ -78,6 +79,17 @@ public class HomeFragment extends Fragment {
         btnChat.setOnClickListener(v -> {
             if (getActivity() instanceof Home) {
                 ((Home) getActivity()).switchToTab(R.id.nav_chatbot);
+            }
+        });
+
+        btnBookmark.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_container, new BookmarkFragment())
+                        .addToBackStack(null) // QUAN TRỌNG
+                        .commit();
             }
         });
 

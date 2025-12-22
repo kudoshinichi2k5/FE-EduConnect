@@ -2,11 +2,16 @@ package com.example.doan.model;
 
 import java.util.List;
 
-public class BookmarkResponse {
-    private int count;
-    private List<Opportunity> bookmarks;
+public class BookmarkListResponse {
 
-    public List<Opportunity> getBookmarks() {
+    private int count;
+    private List<BookmarkItem> bookmarks;
+
+    public int getCount() {
+        return count;
+    }
+
+    public List<BookmarkItem> getBookmarks() {
         return bookmarks;
     }
 }

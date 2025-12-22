@@ -3,6 +3,7 @@ package com.example.doan.api;
 import com.example.doan.model.Article;
 import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.BookmarkRequest;
+import com.example.doan.model.BookmarkListResponse;
 import com.example.doan.model.ChatbotRequest;
 import com.example.doan.model.ChatbotResponse;
 import com.example.doan.model.LoginResponse;
@@ -72,5 +73,11 @@ public interface ApiService {
 
     @HTTP(method = "DELETE", path = "bookmark/remove", hasBody = true)
     Call<Void> removeBookmark(@Body BookmarkRequest request);
+
+    @GET("bookmark/user/{uid}")
+    Call<BookmarkListResponse> getBookmarksByUser(
+            @Path("uid") String uid
+    );
+
 }
 

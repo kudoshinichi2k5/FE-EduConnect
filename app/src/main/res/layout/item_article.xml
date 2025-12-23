@@ -51,12 +51,12 @@
 
         <ImageView
             android:id="@+id/ivBookmark"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_bookmark_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#BDBDBD" />
+            app:tint="#FF9800" />
 
         <TextView
             android:id="@+id/tvArticleTitle"

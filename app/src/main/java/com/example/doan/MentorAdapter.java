@@ -19,11 +19,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.ViewHolder> {
 
-    private final List<Mentor> mList;
+    private final List<Mentor> list;
     private final Context context;
 
     public MentorAdapter(List<Mentor> list, Context context) {
-        this.mList = list;
+        this.list = list;
         this.context = context;
     }
 
@@ -43,7 +43,7 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.ViewHolder
             @NonNull ViewHolder holder,
             int position
     ) {
-        Mentor mentor = mList.get(position);
+        Mentor mentor = list.get(position);
 
         holder.tvName.setText(mentor.getHoTen());
         holder.tvJob.setText(mentor.getChucVu());
@@ -54,10 +54,9 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.ViewHolder
                     .into(holder.imgAvatar);
         }
 
-        // 👉 GIỐNG OPPORTUNITY
+        // 👉 CLICK → MỞ DETAIL (GIỐNG Opportunity)
         holder.itemView.setOnClickListener(v -> {
-            Intent intent =
-                    new Intent(context, MentorDetailActivity.class);
+            Intent intent = new Intent(context, MentorDetailActivity.class);
             intent.putExtra("MENTOR_ID", mentor.getMaMentor());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
@@ -66,18 +65,18 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return list == null ? 0 : list.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvJob;
         CircleImageView imgAvatar;
 
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvName = itemView.findViewById(R.id.tvMentorName);
-            tvJob = itemView.findViewById(R.id.tvMentorJob);
-            imgAvatar = itemView.findViewById(R.id.imgMentorAvatar);
+        ViewHolder(View view) {
+            super(view);
+            tvName = view.findViewById(R.id.tvMentorName);
+            tvJob = view.findViewById(R.id.tvMentorJob);
+            imgAvatar = view.findViewById(R.id.imgMentorAvatar);
         }
     }
 }

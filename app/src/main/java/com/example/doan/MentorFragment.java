@@ -1,6 +1,5 @@
 package com.example.doan;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,11 +27,15 @@ import retrofit2.Response;
 
 public class MentorFragment extends Fragment {
 
+    private static final String TAG = "MentorFragment";
+
     private RecyclerView rvMentorList;
+    private SearchView searchMentor;
     private MentorAdapter adapter;
 
-    // giống Opportunity: 1 list hiển thị
-    private final List<Mentor> mentorList = new ArrayList<>();
+    // GIỐNG Opportunities
+    private final List<Mentor> fullList = new ArrayList<>();
+    private final List<Mentor> displayList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -43,35 +47,66 @@ public class MentorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mentor, container, false);
 
         rvMentorList = view.findViewById(R.id.rvMentorList);
-        rvMentorList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        searchMentor = view.findViewById(R.id.searchMentor);
 
-        adapter = new MentorAdapter(mentorList, requireContext());
+        rvMentorList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new MentorAdapter(displayList, requireContext());
         rvMentorList.setAdapter(adapter);
 
+        // LOAD ALL MENTOR
         fetchAllMentors();
+
+        // SEARCH (CLIENT-SIDE) – GIỐNG Opportunities
+        searchMentor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                applySearch(newText);
+                return true;
+            }
+        });
+
         return view;
     }
 
-    private void fetchAllMentors() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+    // ================= API =================
 
-        apiService.getAllMentors().enqueue(new Callback<List<Mentor>>() {
+    private void fetchAllMentors() {
+        Log.d(TAG, "fetchAllMentors()");
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Mentor>> call = apiService.getAllMentors();
+
+        Log.d(TAG, "API URL: " + call.request().url());
+
+        call.enqueue(new Callback<List<Mentor>>() {
             @Override
             public void onResponse(
                     @NonNull Call<List<Mentor>> call,
                     @NonNull Response<List<Mentor>> response
             ) {
-                Log.d("MENTOR_API", "Code: " + response.code());
-                Log.d("MENTOR_API", "Body: " + response.body());
+                Log.d(TAG, "onResponse - Code: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
-                    mentorList.clear();
-                    mentorList.addAll(response.body());
+                    fullList.clear();
+                    fullList.addAll(response.body());
+
+                    displayList.clear();
+                    displayList.addAll(fullList);
+
                     adapter.notifyDataSetChanged();
+
+                    Log.d(TAG, "Mentor size: " + displayList.size());
                 } else {
-                    Toast.makeText(requireContext(),
+                    Toast.makeText(
+                            requireContext(),
                             "Không tải được mentor",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
@@ -80,10 +115,36 @@ public class MentorFragment extends Fragment {
                     @NonNull Call<List<Mentor>> call,
                     @NonNull Throwable t
             ) {
-                Toast.makeText(requireContext(),
+                Log.e(TAG, "onFailure", t);
+                Toast.makeText(
+                        requireContext(),
                         "Lỗi kết nối server",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
+    }
+
+    // ================= SEARCH =================
+
+    private void applySearch(String keyword) {
+        displayList.clear();
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            displayList.addAll(fullList);
+        } else {
+            String lower = keyword.toLowerCase();
+            for (Mentor m : fullList) {
+                if ((m.getHoTen() != null && m.getHoTen().toLowerCase().contains(lower)) ||
+                        (m.getChuyenNganh() != null && m.getChuyenNganh().toLowerCase().contains(lower)) ||
+                        (m.getNoiLamViec() != null && m.getNoiLamViec().toLowerCase().contains(lower))) {
+
+                    displayList.add(m);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+        Log.d(TAG, "Search result: " + displayList.size());
     }
 }

@@ -108,38 +108,41 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     }
 
     private void checkBookmarkStatus(String maNguoiDung, String maTinTuc) {
-        if (maNguoiDung == null || maNguoiDung.isEmpty() || maTinTuc == null || maTinTuc.isEmpty()) {
-            return;
-        }
-
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-        apiService.checkBookmark(maNguoiDung, maTinTuc)
+        apiService.checkBookmark(maNguoiDung, maTinTuc, "opportunity")
                 .enqueue(new Callback<BookmarkCheckResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<BookmarkCheckResponse> call, @NonNull Response<BookmarkCheckResponse> response) {
+                    public void onResponse(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Response<BookmarkCheckResponse> response
+                    ) {
                         if (response.isSuccessful() && response.body() != null) {
                             isBookmarked = response.body().isBookmarked();
-                            ivBookmark.setImageResource(isBookmarked ? R.drawable.ic_bookmark_filled : R.drawable.ic_bookmark_border);
+                            ivBookmark.setImageResource(
+                                    isBookmarked
+                                            ? R.drawable.ic_bookmark_filled
+                                            : R.drawable.ic_bookmark_border
+                            );
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<BookmarkCheckResponse> call, @NonNull Throwable t) { }
+                    public void onFailure(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Throwable t
+                    ) { }
                 });
     }
 
-    private void toggleBookmark() {
-        if (maNguoiDung == null || maNguoiDung.isEmpty() || maTinTuc == null || maTinTuc.isEmpty()) {
-            Toast.makeText(this, "Thiếu thông tin người dùng hoặc mục", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
+    private void toggleBookmark() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        BookmarkRequest request = new BookmarkRequest(maNguoiDung, maTinTuc);
+        BookmarkRequest request =
+                new BookmarkRequest(maNguoiDung, maTinTuc, "opportunity");
 
         if (!isBookmarked) {
-            apiService.addBookmark(request).enqueue(new retrofit2.Callback<Void>() {
+            apiService.addBookmark(request).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
@@ -148,11 +151,10 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                     }
                 }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) { }
+                @Override public void onFailure(Call<Void> call, Throwable t) {}
             });
         } else {
-            apiService.removeBookmark(request).enqueue(new retrofit2.Callback<Void>() {
+            apiService.removeBookmark(request).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
@@ -161,11 +163,11 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                     }
                 }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) { }
+                @Override public void onFailure(Call<Void> call, Throwable t) {}
             });
         }
     }
+
 
     private void mapping() {
         tvTitle = findViewById(R.id.tvDetailTitle);

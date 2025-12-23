@@ -42,6 +42,7 @@ public interface ApiService {
             @Body RegisterRequest request
     );
 
+    // ===== OPPORTUNITY =====
     @GET("opportunity")
     Call<List<Opportunity>> getAllOpportunities();
 
@@ -53,16 +54,18 @@ public interface ApiService {
     @GET("opportunity/{id}")
     Call<Opportunity> getOpportunityById(@Path("id") String id);
 
+    // ===== CHATBOT =====
     @POST("chatbot/ask")
     Call<ChatbotResponse> askChatbot(@Body ChatbotRequest request);
 
+    // ===== ARTICLE =====
     @GET("article")
     Call<List<Article>> getAllArticles();
 
     @GET("article/{id}")
     Call<Article> getArticleById(@Path("id") String id);
 
-    // Bookmark
+    // ===== BOOKMARK =====
     @GET("bookmark/check")
     Call<BookmarkCheckResponse> checkBookmark(
             @Query("MaNguoiDung") String maNguoiDung,
@@ -79,6 +82,8 @@ public interface ApiService {
     Call<BookmarkListResponse> getBookmarksByUser(
             @Path("uid") String uid
     );
+
+    // ===== MENTOR =====
     @GET("mentors")
     Call<List<Mentor>> getAllMentors();
 }

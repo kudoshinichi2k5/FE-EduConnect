@@ -3,22 +3,41 @@ package com.example.doan.model;
 import java.io.Serializable;
 
 public class Mentor implements Serializable {
-    private int id;
-    private String name;
-    private String job_title;
-    private String company;
-    private String education;
-    private String achievements;
-    private String email;
-    private String image_url;
 
-    public Mentor() { }
+    private String MaMentor;
+    private String HoTen;
+    private String ChucVu;
+    private String NoiLamViec;
+    private String ChuyenNganh;
+    private String LinkLienHe;
+    private String AnhDaiDien;
 
-    public String getName() { return name; }
-    public String getJobTitle() { return job_title; }
-    public String getCompany() { return company; }
-    public String getEducation() { return education; }
-    public String getAchievements() { return achievements; }
-    public String getEmail() { return email; }
-    public String getImageUrl() { return image_url; }
+    // ===== Getter =====
+    public String getMaMentor() {
+        return MaMentor;
+    }
+
+    public String getHoTen() {
+        return HoTen;
+    }
+
+    public String getChucVu() {
+        return ChucVu;
+    }
+
+    public String getNoiLamViec() {
+        return NoiLamViec;
+    }
+
+    public String getChuyenNganh() {
+        return ChuyenNganh;
+    }
+
+    public String getLinkLienHe() {
+        return LinkLienHe;
+    }
+
+    public String getAnhDaiDien() {
+        return AnhDaiDien;
+    }
 }

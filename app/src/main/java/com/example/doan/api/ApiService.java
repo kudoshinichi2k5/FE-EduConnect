@@ -69,7 +69,8 @@ public interface ApiService {
     @GET("bookmark/check")
     Call<BookmarkCheckResponse> checkBookmark(
             @Query("MaNguoiDung") String maNguoiDung,
-            @Query("MaTinTuc") String maTinTuc
+            @Query("TargetId") String targetId,
+            @Query("TargetType") String targetType
     );
 
     @POST("bookmark/add")
@@ -82,6 +83,7 @@ public interface ApiService {
     Call<BookmarkListResponse> getBookmarksByUser(
             @Path("uid") String uid
     );
+
 
     // ===== MENTOR =====
     // Lấy danh sách mentor

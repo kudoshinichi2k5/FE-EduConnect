@@ -2,10 +2,12 @@ package com.example.doan.model;
 
 public class BookmarkRequest {
     private String MaNguoiDung;
-    private String MaTinTuc;
+    private String TargetId;
+    private String TargetType;
 
-    public BookmarkRequest(String maNguoiDung, String maTinTuc) {
+    public BookmarkRequest(String maNguoiDung, String targetId, String targetType) {
         MaNguoiDung = maNguoiDung;
-        MaTinTuc = maTinTuc;
+        TargetId = targetId;
+        TargetType = targetType;
     }
 }

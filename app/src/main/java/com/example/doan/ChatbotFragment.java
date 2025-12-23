@@ -72,7 +72,7 @@ public class ChatbotFragment extends Fragment {
         // Tin nhắn chào mừng mặc định
         messageList.add(new ChatMessage("Xin chào! Tôi là trợ lý AI EduConnect. Tôi có thể giúp gì cho bạn hôm nay?", false));
 
-        chatAdapter = new ChatAdapter(messageList);
+        chatAdapter = new ChatAdapter(messageList, requireContext());
         rvChatMessages.setLayoutManager(new LinearLayoutManager(getContext()));
         rvChatMessages.setAdapter(chatAdapter);
 

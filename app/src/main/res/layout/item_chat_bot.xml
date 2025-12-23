@@ -18,7 +18,8 @@
         android:text="Xin chào! Tôi là trợ lý AI EduConnect."
         android:textColor="#333333"
         android:textSize="15sp"
-        android:lineSpacingExtra="2dp"
+        android:lineSpacingExtra="4dp"
+        android:lineSpacingMultiplier="1.1"
         app:layout_constraintStart_toEndOf="@id/cardBotAvatar"
         app:layout_constraintTop_toTopOf="parent" />
 

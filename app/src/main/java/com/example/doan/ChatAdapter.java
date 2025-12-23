@@ -1,24 +1,35 @@
 package com.example.doan;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.doan.R;
 import com.example.doan.model.ChatMessage;
 import java.util.List;
 import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.tasklist.TaskListPlugin;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<ChatMessage> messageList;
+    private final List<ChatMessage> messageList;
+    private final Markwon markwon;
+
     private static final int TYPE_USER = 1;
     private static final int TYPE_BOT = 2;
 
-    public ChatAdapter(List<ChatMessage> messageList) {
+    public ChatAdapter(List<ChatMessage> messageList, Context context) {
         this.messageList = messageList;
+
+        // TẠO MARKWON NÂNG CAO 1 LẦN DUY NHẤT
+        this.markwon = Markwon.builder(context)
+                .usePlugin(io.noties.markwon.ext.strikethrough.StrikethroughPlugin.create())
+                .usePlugin(io.noties.markwon.ext.tables.TablePlugin.create(context))
+                .usePlugin(io.noties.markwon.linkify.LinkifyPlugin.create())
+                .usePlugin(TaskListPlugin.create(context))
+                .build();
     }
 
     @Override
@@ -46,7 +57,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             BotViewHolder botHolder = (BotViewHolder) holder;
 
-            Markwon markwon = Markwon.create(botHolder.itemView.getContext());
             markwon.setMarkdown(botHolder.tvMessage, msg.getMessage());
         }
     }

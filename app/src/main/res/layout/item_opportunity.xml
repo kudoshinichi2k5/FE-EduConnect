@@ -15,15 +15,36 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <!-- Header: Title + Bookmark Icon -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Học bổng Doanh nghiệp kì Fall 2025"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#0056D2"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/ivBookmark"
+                android:layout_marginEnd="8dp"
+                android:text="Học bổng Doanh nghiệp kì Fall 2025"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#0056D2" />
+
+            <!-- ICON BOOKMARK -->
+            <ImageView
+                android:id="@+id/ivBookmark"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_bookmark_border"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#FF9800"
+                android:contentDescription="Bookmark" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvDescription"

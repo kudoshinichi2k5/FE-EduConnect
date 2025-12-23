@@ -57,10 +57,14 @@ public class HomeFragment extends Fragment {
 
         // SỰ KIỆN CLICK NÚT MENTOR
         btnFindMentor.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new MentorFragment())
-                    .addToBackStack(null)
-                    .commit();
+            if (getActivity() != null) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_container, new MentorFragment())
+                        .addToBackStack(null) // QUAN TRỌNG
+                        .commit();
+            }
         });
 
         btnBookmark.setOnClickListener(v -> {

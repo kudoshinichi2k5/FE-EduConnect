@@ -1,6 +1,8 @@
 package com.example.doan;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Mentor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,6 +28,10 @@ import retrofit2.Response;
 public class MentorFragment extends Fragment {
 
     private RecyclerView rvMentorList;
+    private MentorAdapter adapter;
+
+    // giống Opportunity: 1 list hiển thị
+    private final List<Mentor> mentorList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -36,14 +43,16 @@ public class MentorFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mentor, container, false);
 
         rvMentorList = view.findViewById(R.id.rvMentorList);
-        rvMentorList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvMentorList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        loadMentors();
+        adapter = new MentorAdapter(mentorList, requireContext());
+        rvMentorList.setAdapter(adapter);
 
+        fetchAllMentors();
         return view;
     }
 
-    private void loadMentors() {
+    private void fetchAllMentors() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
         apiService.getAllMentors().enqueue(new Callback<List<Mentor>>() {
@@ -52,15 +61,17 @@ public class MentorFragment extends Fragment {
                     @NonNull Call<List<Mentor>> call,
                     @NonNull Response<List<Mentor>> response
             ) {
+                Log.d("MENTOR_API", "Code: " + response.code());
+                Log.d("MENTOR_API", "Body: " + response.body());
+
                 if (response.isSuccessful() && response.body() != null) {
-                    MentorAdapter adapter = new MentorAdapter(
-                            getContext(),
-                            response.body(),
-                            mentor -> openMentorDetail(mentor)
-                    );
-                    rvMentorList.setAdapter(adapter);
+                    mentorList.clear();
+                    mentorList.addAll(response.body());
+                    adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "Không tải được mentor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(),
+                            "Không tải được mentor",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -69,23 +80,10 @@ public class MentorFragment extends Fragment {
                     @NonNull Call<List<Mentor>> call,
                     @NonNull Throwable t
             ) {
-                Toast.makeText(getContext(), "Lỗi kết nối server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(),
+                        "Lỗi kết nối server",
+                        Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void openMentorDetail(Mentor mentor) {
-        MentorDetailActivity fragment = new MentorDetailActivity();
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("mentor", mentor);
-        fragment.setArguments(bundle);
-
-        requireActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_container, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 }

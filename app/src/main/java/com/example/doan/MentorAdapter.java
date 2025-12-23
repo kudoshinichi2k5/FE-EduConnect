@@ -1,6 +1,7 @@
 package com.example.doan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,37 +17,36 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.MentorViewHolder> {
+public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.ViewHolder> {
 
+    private final List<Mentor> mList;
     private final Context context;
-    private final List<Mentor> mentors;
-    private final OnItemClickListener listener;
 
-    public interface OnItemClickListener {
-        void onItemClick(Mentor mentor);
-    }
-
-    public MentorAdapter(Context context, List<Mentor> mentors, OnItemClickListener listener) {
+    public MentorAdapter(List<Mentor> list, Context context) {
+        this.mList = list;
         this.context = context;
-        this.mentors = mentors;
-        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public MentorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_mentor, parent, false);
-        return new MentorViewHolder(view);
+    public ViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent,
+            int viewType
+    ) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_mentor, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MentorViewHolder holder, int position) {
-        Mentor mentor = mentors.get(position);
+    public void onBindViewHolder(
+            @NonNull ViewHolder holder,
+            int position
+    ) {
+        Mentor mentor = mList.get(position);
 
         holder.tvName.setText(mentor.getHoTen());
-        holder.tvJob.setText(
-                mentor.getChucVu() + " - " + mentor.getNoiLamViec()
-        );
+        holder.tvJob.setText(mentor.getChucVu());
 
         if (mentor.getAnhDaiDien() != null && !mentor.getAnhDaiDien().isEmpty()) {
             Glide.with(context)
@@ -54,20 +54,26 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.MentorView
                     .into(holder.imgAvatar);
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(mentor));
+        // 👉 GIỐNG OPPORTUNITY
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent =
+                    new Intent(context, MentorDetailActivity.class);
+            intent.putExtra("MENTOR_ID", mentor.getMaMentor());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mentors.size();
+        return mList.size();
     }
 
-    static class MentorViewHolder extends RecyclerView.ViewHolder {
-
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvJob;
         CircleImageView imgAvatar;
 
-        MentorViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvMentorName);
             tvJob = itemView.findViewById(R.id.tvMentorJob);

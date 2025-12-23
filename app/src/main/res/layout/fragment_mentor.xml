@@ -10,17 +10,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tìm kiếm Mentor"
+        android:text="Mentor"
         android:padding="20dp"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:background="@drawable/bg_header_gradient"/>
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchMentor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Nhập tên, chuyên ngành, công ty..."
+        android:iconifiedByDefault="false"
+        android:padding="12dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMentorList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
-        android:clipToPadding="false"/>
+        android:paddingTop="8dp"/>
 </LinearLayout>

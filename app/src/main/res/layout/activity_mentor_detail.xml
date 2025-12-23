@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:clickable="true"
-    android:focusable="true">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +41,7 @@
                 android:id="@+id/tvDetailJob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chức vụ"
+                android:text="Chức vụ - Công ty"
                 android:textColor="#E3F2FD"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -54,19 +52,26 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <TextView android:text="Học vấn" android:textSize="18sp" android:textStyle="bold" android:textColor="#0D47A1"/>
-            <TextView android:id="@+id/tvDetailEducation" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="..." android:layout_marginBottom="24dp"/>
+            <TextView
+                android:text="Chuyên ngành"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#0D47A1"/>
 
-            <TextView android:text="Thành tích" android:textSize="18sp" android:textStyle="bold" android:textColor="#F57C00"/>
-            <TextView android:id="@+id/tvDetailAchievement" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="..." android:layout_marginBottom="32dp"/>
-
-            <Button
-                android:id="@+id/btnContactEmail"
+            <TextView
+                android:id="@+id/tvDetailMajor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gửi Email Liên Hệ"
+                android:text="..."
+                android:layout_marginBottom="32dp"/>
+
+            <Button
+                android:id="@+id/btnContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Liên hệ Mentor"
                 android:backgroundTint="#0D47A1"
-                android:textColor="#FFF"/>
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

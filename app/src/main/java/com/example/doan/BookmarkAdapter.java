@@ -41,8 +41,18 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         holder.tvDate.setText("Đã lưu: " + item.getSaved_at());
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OpportunityDetailActivity.class);
-            intent.putExtra("MA_TIN_TUC", item.getMaTinTuc());
+            Intent intent;
+
+            if ("opportunity".equals(item.getTargetType())) {
+                intent = new Intent(context, OpportunityDetailActivity.class);
+                intent.putExtra("MA_TIN_TUC", item.getTargetId());
+            } else if ("article".equals(item.getTargetType())) {
+                intent = new Intent(context, ArticleDetailActivity.class);
+                intent.putExtra("MA_BAI_VIET", item.getTargetId());
+            } else {
+                return;
+            }
+
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });

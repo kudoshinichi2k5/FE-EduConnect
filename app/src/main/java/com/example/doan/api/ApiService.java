@@ -85,14 +85,14 @@ public interface ApiService {
 
     // ===== MENTOR =====
     // Lấy danh sách mentor
-    @GET("/mentor")
+    @GET("mentor")
     Call<List<Mentor>> getAllMentors();
 
     // Lấy mentor theo ID
-    @GET("/mentor/{id}")
+    @GET("mentor/{id}")
     Call<Mentor> getMentorById(@Path("id") String id);
 
     // Search mentor
-    @GET("/mentor/search")
+    @GET("mentor/search")
     Call<List<Mentor>> searchMentor(@Query("q") String keyword);
 }

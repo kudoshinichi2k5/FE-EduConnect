@@ -11,8 +11,9 @@ public class Mentor implements Serializable {
     private String ChuyenNganh;
     private String LinkLienHe;
     private String AnhDaiDien;
+    private String Created_at;
 
-    // ===== Getter =====
+    // ===== GETTERS =====
     public String getMaMentor() {
         return MaMentor;
     }
@@ -39,5 +40,9 @@ public class Mentor implements Serializable {
 
     public String getAnhDaiDien() {
         return AnhDaiDien;
+    }
+
+    public String getCreated_at() {
+        return Created_at;
     }
 }

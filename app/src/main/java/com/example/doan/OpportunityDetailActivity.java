@@ -1,4 +1,3 @@
-// java
 package com.example.doan;
 
 import android.content.Intent;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.BookmarkCheckResponse;
-import com.example.doan.model.BookmarkRequest;
 import com.example.doan.model.Opportunity;
 
 import retrofit2.Call;
@@ -29,13 +27,9 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     Button btnRegister;
     ImageView ivBack;
 
-    ImageView ivBookmark;
-    boolean isBookmarked = false;
-
-    private String maNguoiDung;
-
     String maTinTuc;
     String linkUrl = "";
+    String maNguoiDung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,130 +38,51 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         mapping();
 
-        // 1. Nhận MaTinTuc từ Intent trước khi gọi API/check status
         maTinTuc = getIntent().getStringExtra("MA_TIN_TUC");
-        if (maTinTuc == null || maTinTuc.isEmpty()) {
-            Toast.makeText(this, "Không tìm thấy dữ liệu!", Toast.LENGTH_SHORT).show();
+        if (maTinTuc == null) {
             finish();
             return;
         }
 
-        // 2. Lấy user id
         SharedPreferences sp = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         maNguoiDung = sp.getString("USER_ID", "");
 
-        // 3. Kiểm tra bookmark (bây giờ maTinTuc đã có)
-        checkBookmarkStatus(maNguoiDung, maTinTuc);
-
-        // 4. Đăng ký listener duy nhất cho bookmark -> gọi API
-        ivBookmark.setOnClickListener(v -> toggleBookmark());
-
-        // 5. Gọi API lấy chi tiết
         fetchOpportunityDetail(maTinTuc);
 
-        // 6. Back
         ivBack.setOnClickListener(v -> finish());
 
-        // 7. Đăng ký ngay
         btnRegister.setOnClickListener(v -> {
-            if (linkUrl != null && !linkUrl.isEmpty()) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl));
-                startActivity(browserIntent);
-            } else {
-                Toast.makeText(this, "Không tìm thấy link đăng ký!", Toast.LENGTH_SHORT).show();
+            if (!linkUrl.isEmpty()) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl)));
             }
         });
     }
 
     private void fetchOpportunityDetail(String id) {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
-        apiService.getOpportunityById(id)
+        ApiClient.getClient().create(ApiService.class)
+                .getOpportunityById(id)
                 .enqueue(new Callback<Opportunity>() {
                     @Override
-                    public void onResponse(@NonNull Call<Opportunity> call, @NonNull Response<Opportunity> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            Opportunity item = response.body();
-
-                            tvTitle.setText(item.getTitle());
-                            tvDesc.setText(item.getDescription());
-                            tvDate.setText("Ngày đăng: " + item.getCreatedAt());
-                            tvDeadline.setText("Hạn chót: " + item.getDeadline());
-
-                            linkUrl = item.getContentUrl();
-                        } else {
-                            Toast.makeText(OpportunityDetailActivity.this, "Không tải được chi tiết", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<Opportunity> call, @NonNull Throwable t) {
-                        Toast.makeText(OpportunityDetailActivity.this, "Lỗi kết nối server", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void checkBookmarkStatus(String maNguoiDung, String maTinTuc) {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
-        apiService.checkBookmark(maNguoiDung, maTinTuc, "opportunity")
-                .enqueue(new Callback<BookmarkCheckResponse>() {
-                    @Override
                     public void onResponse(
-                            @NonNull Call<BookmarkCheckResponse> call,
-                            @NonNull Response<BookmarkCheckResponse> response
+                            @NonNull Call<Opportunity> call,
+                            @NonNull Response<Opportunity> response
                     ) {
                         if (response.isSuccessful() && response.body() != null) {
-                            isBookmarked = response.body().isBookmarked();
-                            ivBookmark.setImageResource(
-                                    isBookmarked
-                                            ? R.drawable.ic_bookmark_filled
-                                            : R.drawable.ic_bookmark_border
-                            );
+                            Opportunity o = response.body();
+                            tvTitle.setText(o.getTitle());
+                            tvDesc.setText(o.getDescription());
+                            tvDate.setText("Ngày đăng: " + o.getCreatedAt());
+                            tvDeadline.setText("Hạn chót: " + o.getDeadline());
+                            linkUrl = o.getContentUrl();
                         }
                     }
 
-                    @Override
-                    public void onFailure(
-                            @NonNull Call<BookmarkCheckResponse> call,
+                    @Override public void onFailure(
+                            @NonNull Call<Opportunity> call,
                             @NonNull Throwable t
-                    ) { }
+                    ) {}
                 });
     }
-
-
-    private void toggleBookmark() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        BookmarkRequest request =
-                new BookmarkRequest(maNguoiDung, maTinTuc, "opportunity");
-
-        if (!isBookmarked) {
-            apiService.addBookmark(request).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        isBookmarked = true;
-                        ivBookmark.setImageResource(R.drawable.ic_bookmark_filled);
-                    }
-                }
-
-                @Override public void onFailure(Call<Void> call, Throwable t) {}
-            });
-        } else {
-            apiService.removeBookmark(request).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        isBookmarked = false;
-                        ivBookmark.setImageResource(R.drawable.ic_bookmark_border);
-                    }
-                }
-
-                @Override public void onFailure(Call<Void> call, Throwable t) {}
-            });
-        }
-    }
-
 
     private void mapping() {
         tvTitle = findViewById(R.id.tvDetailTitle);

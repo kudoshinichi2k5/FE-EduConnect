@@ -34,13 +34,6 @@
             android:textStyle="bold"
             android:layout_marginStart="16dp"/>
 
-        <!-- ICON BOOKMARK -->
-        <ImageView
-            android:id="@+id/ivBookmark"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_bookmark_border"
-            app:tint="#FFFFFF"/>
     </LinearLayout>
 
 

@@ -3,6 +3,7 @@ package com.example.doan;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.BookmarkRequest;
 import com.example.doan.model.Opportunity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,17 +30,28 @@ import retrofit2.Response;
 
 public class OpportunityAdapter extends RecyclerView.Adapter<OpportunityAdapter.ViewHolder> {
 
+    private static final String TAG = "OpportunityAdapter";
+
     private final List<Opportunity> mList;
     private final Context context;
-    private final String userId;
+    private final String maNguoiDung;
+
+    // Cache trạng thái bookmark để tránh gọi API liên tục
+    private final Map<String, Boolean> bookmarkCache = new HashMap<>();
 
     public OpportunityAdapter(List<Opportunity> list, Context context) {
         this.mList = list;
         this.context = context;
 
-        // Lấy userId từ SharedPreferences
+        // Lấy user ID từ SharedPreferences
         SharedPreferences sp = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        this.userId = sp.getString("USER_ID", "");
+        this.maNguoiDung = sp.getString("USER_ID", "");
+    }
+
+    public void updateData(List<Opportunity> newList) {
+        mList.clear();
+        mList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,6 +65,7 @@ public class OpportunityAdapter extends RecyclerView.Adapter<OpportunityAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Opportunity item = mList.get(position);
+        String maTinTuc = item.getMaTinTuc();
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvDesc.setText(item.getDescription());
@@ -61,25 +76,24 @@ public class OpportunityAdapter extends RecyclerView.Adapter<OpportunityAdapter.
                         : "Không có hạn chót"
         );
 
-        // Check bookmark status cho item này
-        checkAndSetBookmarkIcon(holder, item.getMaTinTuc());
+        // Kiểm tra bookmark status (từ cache hoặc API)
+        if (bookmarkCache.containsKey(maTinTuc)) {
+            updateBookmarkIcon(holder.ivBookmark, bookmarkCache.get(maTinTuc));
+        } else {
+            checkBookmarkStatus(maTinTuc, holder.ivBookmark);
+        }
 
-        // Click vào card → mở detail
+        // Click vào card -> xem chi tiết
         holder.itemView.setOnClickListener(v -> {
-            // Chặn sự kiện click nếu đang click vào bookmark icon
-            if (v.getId() != R.id.ivBookmark) {
-                Intent intent = new Intent(context, OpportunityDetailActivity.class);
-                intent.putExtra("MA_TIN_TUC", item.getMaTinTuc());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
+            Intent intent = new Intent(context, OpportunityDetailActivity.class);
+            intent.putExtra("MA_TIN_TUC", maTinTuc);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         });
 
-        // Click vào bookmark icon → toggle bookmark
+        // Click vào bookmark icon -> toggle bookmark
         holder.ivBookmark.setOnClickListener(v -> {
-            // Ngăn sự kiện click lan sang card
-            v.setClickable(true);
-            toggleBookmark(holder, item.getMaTinTuc());
+            toggleBookmark(maTinTuc, holder.ivBookmark);
         });
     }
 
@@ -88,100 +102,108 @@ public class OpportunityAdapter extends RecyclerView.Adapter<OpportunityAdapter.
         return mList.size();
     }
 
+    // ===== BOOKMARK LOGIC =====
+
     /**
-     * Kiểm tra bookmark status và set icon tương ứng
+     * Kiểm tra trạng thái bookmark từ server
      */
-    private void checkAndSetBookmarkIcon(ViewHolder holder, String opportunityId) {
-        if (userId.isEmpty() || opportunityId == null) {
-            return;
-        }
+    private void checkBookmarkStatus(String maTinTuc, ImageView ivBookmark) {
+        if (maNguoiDung.isEmpty()) return;
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-
-        apiService.checkBookmark(userId, opportunityId, "opportunity")
+        apiService.checkBookmark(maNguoiDung, maTinTuc, "opportunity")
                 .enqueue(new Callback<BookmarkCheckResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<BookmarkCheckResponse> call,
-                                           @NonNull Response<BookmarkCheckResponse> response) {
+                    public void onResponse(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Response<BookmarkCheckResponse> response
+                    ) {
                         if (response.isSuccessful() && response.body() != null) {
                             boolean isBookmarked = response.body().isBookmarked();
-                            holder.ivBookmark.setImageResource(
-                                    isBookmarked
-                                            ? R.drawable.ic_bookmark_filled
-                                            : R.drawable.ic_bookmark_border
-                            );
-                            holder.ivBookmark.setTag(isBookmarked); // Lưu trạng thái vào tag
+                            bookmarkCache.put(maTinTuc, isBookmarked);
+                            updateBookmarkIcon(ivBookmark, isBookmarked);
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<BookmarkCheckResponse> call,
-                                          @NonNull Throwable t) {
-                        // Không làm gì, để icon mặc định
+                    public void onFailure(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Throwable t
+                    ) {
+                        Log.e(TAG, "Check bookmark failed: " + t.getMessage());
                     }
                 });
     }
 
     /**
-     * Toggle bookmark (add/remove)
+     * Toggle bookmark (thêm/xóa)
      */
-    private void toggleBookmark(ViewHolder holder, String opportunityId) {
-        if (userId.isEmpty() || opportunityId == null) {
-            Toast.makeText(context, "Vui lòng đăng nhập để lưu", Toast.LENGTH_SHORT).show();
+    private void toggleBookmark(String maTinTuc, ImageView ivBookmark) {
+        if (maNguoiDung.isEmpty()) {
+            Toast.makeText(context, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
             return;
         }
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        BookmarkRequest request = new BookmarkRequest(userId, opportunityId, "opportunity");
+        BookmarkRequest request = new BookmarkRequest(maNguoiDung, maTinTuc, "opportunity");
 
-        // Lấy trạng thái hiện tại từ tag
-        Boolean isCurrentlyBookmarked = (Boolean) holder.ivBookmark.getTag();
-        if (isCurrentlyBookmarked == null) {
-            isCurrentlyBookmarked = false;
-        }
+        boolean currentStatus = bookmarkCache.getOrDefault(maTinTuc, false);
 
-        if (!isCurrentlyBookmarked) {
-            // Add bookmark
+        if (!currentStatus) {
+            // Thêm bookmark
             apiService.addBookmark(request).enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(@NonNull Call<Void> call,
-                                       @NonNull Response<Void> response) {
+                public void onResponse(
+                        @NonNull Call<Void> call,
+                        @NonNull Response<Void> response
+                ) {
                     if (response.isSuccessful()) {
-                        holder.ivBookmark.setImageResource(R.drawable.ic_bookmark_filled);
-                        holder.ivBookmark.setTag(true);
+                        bookmarkCache.put(maTinTuc, true);
+                        updateBookmarkIcon(ivBookmark, true);
                         Toast.makeText(context, "Đã lưu", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Lưu thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                    Toast.makeText(context, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Lỗi khi lưu", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            // Remove bookmark
+            // Xóa bookmark
             apiService.removeBookmark(request).enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(@NonNull Call<Void> call,
-                                       @NonNull Response<Void> response) {
+                public void onResponse(
+                        @NonNull Call<Void> call,
+                        @NonNull Response<Void> response
+                ) {
                     if (response.isSuccessful()) {
-                        holder.ivBookmark.setImageResource(R.drawable.ic_bookmark_border);
-                        holder.ivBookmark.setTag(false);
+                        bookmarkCache.put(maTinTuc, false);
+                        updateBookmarkIcon(ivBookmark, false);
                         Toast.makeText(context, "Đã bỏ lưu", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Bỏ lưu thất bại", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                    Toast.makeText(context, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Lỗi khi bỏ lưu", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
+    /**
+     * Update icon bookmark
+     */
+    private void updateBookmarkIcon(ImageView ivBookmark, boolean isBookmarked) {
+        ivBookmark.setImageResource(
+                isBookmarked
+                        ? R.drawable.ic_bookmark_filled
+                        : R.drawable.ic_bookmark_border
+        );
+    }
+
+    // ===== VIEW HOLDER =====
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDesc, tvDate;

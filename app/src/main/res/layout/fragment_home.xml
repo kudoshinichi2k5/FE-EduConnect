@@ -141,7 +141,7 @@
                             android:layout_height="55dp"
                             android:src="@android:drawable/ic_menu_myplaces"
                             app:tint="#7B1FA2"
-                            android:background="#F3E5F5"
+                            android:background="@drawable/circle_bg_light_purple"
                             android:padding="12dp"/>
                         <TextView
                             android:layout_width="wrap_content"

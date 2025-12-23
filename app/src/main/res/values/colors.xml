@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="chat_primary_blue">#0D47A1</color> <color name="chat_user_bubble">#2196F3</color>  <color name="chat_bot_bubble">#FFFFFF</color>    <color name="chat_background">#F5F7F9</color>   <color name="chat_input_hint">#9E9E9E</color>
 </resources>
 

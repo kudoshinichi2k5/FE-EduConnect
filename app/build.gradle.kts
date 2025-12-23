@@ -57,4 +57,6 @@ dependencies {
 
     // Thư viện ảnh tròn (tùy chọn, nếu không có thì dùng CardView bo tròn)
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("io.noties.markwon:core:4.6.2")
 }

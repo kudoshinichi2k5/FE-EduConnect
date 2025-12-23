@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doan.R;
 import com.example.doan.model.ChatMessage;
 import java.util.List;
+import io.noties.markwon.Markwon;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -43,7 +44,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_USER) {
             ((UserViewHolder) holder).tvMessage.setText(msg.getMessage());
         } else {
-            ((BotViewHolder) holder).tvMessage.setText(msg.getMessage());
+            BotViewHolder botHolder = (BotViewHolder) holder;
+
+            Markwon markwon = Markwon.create(botHolder.itemView.getContext());
+            markwon.setMarkdown(botHolder.tvMessage, msg.getMessage());
         }
     }
 

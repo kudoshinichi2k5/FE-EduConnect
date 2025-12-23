@@ -46,7 +46,26 @@ public class ChatbotFragment extends Fragment {
         btnSendChat = view.findViewById(R.id.btnSendChat);
         btnBackChat = view.findViewById(R.id.btnBackChat);
 
-        rvChatMessages.setNestedScrollingEnabled(false);
+        requireActivity()
+                .getWindow()
+                .clearFlags(android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | android.view.WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
+        edtChatInput.setInputType(
+                android.text.InputType.TYPE_CLASS_TEXT
+                        | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        );
+
+        edtChatInput.setImeOptions(
+                android.view.inputmethod.EditorInfo.IME_ACTION_SEND
+        );
+
+        edtChatInput.setSingleLine(false);
+        edtChatInput.setFocusable(true);
+        edtChatInput.setFocusableInTouchMode(true);
+        edtChatInput.requestFocus();
+
+        // rvChatMessages.setNestedScrollingEnabled(false);
 
         // 2. Setup RecyclerView
         messageList = new ArrayList<>();
@@ -95,20 +114,21 @@ public class ChatbotFragment extends Fragment {
                             @NonNull Call<ChatbotResponse> call,
                             @NonNull Response<ChatbotResponse> response
                     ) {
-                        // Remove typing
-                        messageList.remove(typingMsg);
-
-                        if (response.isSuccessful() && response.body() != null) {
-                            messageList.add(
-                                    new ChatMessage(response.body().getAnswer(), false)
-                            );
-                        } else {
-                            messageList.add(
-                                    new ChatMessage("Xin lỗi, tôi chưa thể trả lời lúc này.", false)
-                            );
+                        int typingIndex = messageList.indexOf(typingMsg);
+                        if (typingIndex != -1) {
+                            messageList.remove(typingIndex);
+                            chatAdapter.notifyItemRemoved(typingIndex);
                         }
 
-                        chatAdapter.notifyDataSetChanged();
+                        String botReply;
+                        if (response.isSuccessful() && response.body() != null) {
+                            botReply = response.body().getAnswer();
+                        } else {
+                            botReply = "Xin lỗi, tôi chưa thể trả lời lúc này.";
+                        }
+
+                        messageList.add(new ChatMessage(botReply, false));
+                        chatAdapter.notifyItemInserted(messageList.size() - 1);
                         rvChatMessages.scrollToPosition(messageList.size() - 1);
                     }
 
@@ -117,11 +137,14 @@ public class ChatbotFragment extends Fragment {
                             @NonNull Call<ChatbotResponse> call,
                             @NonNull Throwable t
                     ) {
-                        messageList.remove(typingMsg);
-                        messageList.add(
-                                new ChatMessage("Lỗi kết nối server.", false)
-                        );
-                        chatAdapter.notifyDataSetChanged();
+                        int typingIndex = messageList.indexOf(typingMsg);
+                        if (typingIndex != -1) {
+                            messageList.remove(typingIndex);
+                            chatAdapter.notifyItemRemoved(typingIndex);
+                        }
+
+                        messageList.add(new ChatMessage("Lỗi kết nối server.", false));
+                        chatAdapter.notifyItemInserted(messageList.size() - 1);
                     }
                 });
     }

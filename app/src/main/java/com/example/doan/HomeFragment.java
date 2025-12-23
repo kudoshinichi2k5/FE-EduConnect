@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         // SỰ KIỆN CLICK NÚT MENTOR
         btnFindMentor.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new MentorListFragment())
+                    .replace(R.id.frame_container, new MentorFragment())
                     .addToBackStack(null)
                     .commit();
         });

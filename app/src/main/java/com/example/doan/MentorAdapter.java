@@ -5,25 +5,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.example.doan.model.Mentor; // QUAN TRỌNG: Import model
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.example.doan.model.Mentor;
+
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.MentorViewHolder> {
-    private Context context;
-    private List<Mentor> list;
-    private OnItemClickListener listener;
+
+    private final Context context;
+    private final List<Mentor> mentors;
+    private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(Mentor mentor);
     }
 
-    public MentorAdapter(Context context, List<Mentor> list, OnItemClickListener listener) {
+    public MentorAdapter(Context context, List<Mentor> mentors, OnItemClickListener listener) {
         this.context = context;
-        this.list = list;
+        this.mentors = mentors;
         this.listener = listener;
     }
 
@@ -36,26 +41,33 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.MentorView
 
     @Override
     public void onBindViewHolder(@NonNull MentorViewHolder holder, int position) {
-        Mentor mentor = list.get(position);
-        holder.tvName.setText(mentor.getName());
-        holder.tvJob.setText(mentor.getJobTitle());
-        if (mentor.getImageUrl() != null && !mentor.getImageUrl().isEmpty()) {
-            Glide.with(context).load(mentor.getImageUrl()).into(holder.imgAvatar);
+        Mentor mentor = mentors.get(position);
+
+        holder.tvName.setText(mentor.getHoTen());
+        holder.tvJob.setText(
+                mentor.getChucVu() + " - " + mentor.getNoiLamViec()
+        );
+
+        if (mentor.getAnhDaiDien() != null && !mentor.getAnhDaiDien().isEmpty()) {
+            Glide.with(context)
+                    .load(mentor.getAnhDaiDien())
+                    .into(holder.imgAvatar);
         }
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(mentor);
-        });
+
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(mentor));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return mentors.size();
     }
 
-    public static class MentorViewHolder extends RecyclerView.ViewHolder {
+    static class MentorViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvName, tvJob;
         CircleImageView imgAvatar;
-        public MentorViewHolder(@NonNull View itemView) {
+
+        MentorViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvMentorName);
             tvJob = itemView.findViewById(R.id.tvMentorJob);

@@ -50,6 +50,13 @@ public class BookmarkFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBookmarks();
+    }
+
+
     private void loadBookmarks() {
         SharedPreferences sp =
                 requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);

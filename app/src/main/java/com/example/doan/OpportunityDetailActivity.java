@@ -91,6 +91,5 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         tvDesc = findViewById(R.id.tvDetailDesc);
         btnRegister = findViewById(R.id.btnRegister);
         ivBack = findViewById(R.id.ivBack);
-        ivBookmark = findViewById(R.id.ivBookmark);
     }
 }

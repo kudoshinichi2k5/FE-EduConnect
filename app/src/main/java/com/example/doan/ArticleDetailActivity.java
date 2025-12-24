@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Article;
+import com.example.doan.utils.TimeUtils;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,6 +23,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
 
     ImageView imgArticle;
     TextView tvTitle, tvContent, tvCategory;
+    TextView tvDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvDetailTitle);
         tvContent = findViewById(R.id.tvDetailContent);
         tvCategory = findViewById(R.id.tvDetailCategory);
+        tvDate = findViewById(R.id.tvDetailDate);
 
         // ===== GET ID =====
         String maBaiViet = getIntent().getStringExtra("MA_BAI_VIET");
@@ -55,6 +59,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     public void onResponse(
                             @NonNull Call<Article> call,
                             @NonNull Response<Article> response
+
                     ) {
                         if (response.isSuccessful() && response.body() != null) {
                             Article article = response.body();
@@ -67,6 +72,12 @@ public class ArticleDetailActivity extends AppCompatActivity {
                                             ? article.getCategory()
                                             : "Kiến thức"
                             );
+
+                            if (article.getCreatedAt() != null) {
+                                tvDate.setText(
+                                        TimeUtils.formatTimeAgo(article.getCreatedAt())
+                                );
+                            }
 
                             // ===== IMAGE =====
                             if (article.getImageUrl() != null &&

@@ -52,6 +52,7 @@
 
         <activity android:name=".MentorDetailActivity"
             android:exported="false" />
+        <activity android:name=".EditProfileActivity" />
 
     </application>
 

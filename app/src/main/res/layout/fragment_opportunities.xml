@@ -4,13 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F9FF">
+    android:background="#F5F9FF"
+    android:clickable="true"
+    android:focusable="true">
 
-    <!-- Search -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_header_gradient"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:rotation="180"
+            app:tint="#FFFFFF"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khám phá cơ hội"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="4dp">
 
@@ -22,51 +62,85 @@
             app:queryHint="Tìm kiếm cơ hội (vd: FPT)..." />
     </androidx.cardview.widget.CardView>
 
-    <!-- Filter -->
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupFilter"
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:singleSelection="true"
-        app:selectionRequired="true">
+        android:scrollbars="none"
+        android:paddingHorizontal="8dp"
+        android:clipToPadding="false">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipAll"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tất cả"
-            android:checked="true"
-            android:checkable="true"
-            app:checkedIconVisible="false" />
+            android:padding="8dp"
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:singleLine="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipScholarship"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Học bổng"
-            android:checkable="true"
-            app:checkedIconVisible="false" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả"
+                android:checked="true"
+                android:checkable="true"
+                app:checkedIconVisible="false"
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipContest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cuộc thi"
-            android:checkable="true"
-            app:checkedIconVisible="false" />
+                android:textColor="@color/state_text_blue"
+                app:chipBackgroundColor="@color/state_bg_blue"
+                app:chipStrokeColor="#1976D2"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="8dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipScholarship"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Học bổng"
+                android:checkable="true"
+                app:checkedIconVisible="false"
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sự kiện"
-            android:checkable="true"
-            app:checkedIconVisible="false" />
+                android:textColor="@color/state_text_blue"
+                app:chipBackgroundColor="@color/state_bg_blue"
+                app:chipStrokeColor="#1976D2"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="8dp" />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipContest"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuộc thi"
+                android:checkable="true"
+                app:checkedIconVisible="false"
 
-    <!-- List -->
+                android:textColor="@color/state_text_blue"
+                app:chipBackgroundColor="@color/state_bg_blue"
+                app:chipStrokeColor="#1976D2"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="8dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEvent"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sự kiện"
+                android:checkable="true"
+                app:checkedIconVisible="false"
+
+                android:textColor="@color/state_text_blue"
+                app:chipBackgroundColor="@color/state_bg_blue"
+                app:chipStrokeColor="#1976D2"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="8dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOpportunities"
         android:layout_width="match_parent"

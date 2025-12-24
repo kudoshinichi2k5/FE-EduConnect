@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView; // 1. Đã có import này
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,10 +49,27 @@ public class OpportunitiesFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_opportunities, container, false);
 
-        // Init views
+        // Init views cũ
         recyclerView = view.findViewById(R.id.rvOpportunities);
         searchView = view.findViewById(R.id.searchView);
         chipGroup = view.findViewById(R.id.chipGroupFilter);
+
+        // 2. XỬ LÝ NÚT BACK (AUTO VỀ TRANG CHỦ NẾU HẾT LỊCH SỬ)
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            // Kiểm tra xem còn trang nào trong lịch sử để quay lại không
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                // Nếu có, quay lại bình thường
+                getParentFragmentManager().popBackStack();
+            } else {
+                // Nếu không có (tức là bấm Back sẽ bị thoát App), ÉP MỞ TRANG CHỦ
+                // LƯU Ý: R.id.frame_container là ID của khung chứa trong activity_main.xml
+                // Bạn hãy đổi nó thành ID đúng của bạn (vd: R.id.frame_layout, R.id.main_container...)
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, new HomeFragment())
+                        .commit();
+            }
+        });
 
         // Setup RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -102,7 +120,7 @@ public class OpportunitiesFragment extends Fragment {
         return view;
     }
 
-    // ================= API CALLS =================
+    // ================= API CALLS (GIỮ NGUYÊN) =================
 
     /**
      * Lấy tất cả opportunities
@@ -132,7 +150,7 @@ public class OpportunitiesFragment extends Fragment {
         call.enqueue(new OpportunityCallback());
     }
 
-    // ================= COMMON CALLBACK =================
+    // ================= COMMON CALLBACK (GIỮ NGUYÊN) =================
 
     /**
      * Callback chung cho cả fetchAll và fetchByType
@@ -169,9 +187,11 @@ public class OpportunitiesFragment extends Fragment {
                 Log.d(TAG, "Adapter updated. DisplayList size: " + displayList.size());
             } else {
                 Log.e(TAG, "Response not successful. Code: " + response.code());
-                Toast.makeText(getContext(),
-                        "Lỗi tải dữ liệu: " + response.code(),
-                        Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(),
+                            "Lỗi tải dữ liệu: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -181,13 +201,15 @@ public class OpportunitiesFragment extends Fragment {
                 @NonNull Throwable t
         ) {
             Log.e(TAG, "onFailure: " + t.getMessage(), t);
-            Toast.makeText(getContext(),
-                    "Lỗi kết nối: " + t.getMessage(),
-                    Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(),
+                        "Lỗi kết nối: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    // ================= CLIENT-SIDE SEARCH =================
+    // ================= CLIENT-SIDE SEARCH (GIỮ NGUYÊN) =================
 
     /**
      * Search trên fullList (client-side)

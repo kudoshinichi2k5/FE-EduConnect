@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView; // 1. Thêm import này
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,11 +42,30 @@ public class BookmarkFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_bookmark, container, false);
 
+        // --- 1. XỬ LÝ NÚT BACK (MỚI) ---
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            // Kiểm tra lịch sử Fragment
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                // Nếu có trang trước -> Quay lại
+                getParentFragmentManager().popBackStack();
+            } else {
+                // Nếu không có (đứng trơ trọi) -> Về trang chủ
+                // LƯU Ý: R.id.frame_container là ID khung chứa trong activity_main.xml của bạn
+                // Hãy thay đổi nếu ID của bạn khác (vd: R.id.fragment_container)
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, new HomeFragment())
+                        .commit();
+            }
+        });
+
+        // --- 2. SETUP RECYCLERVIEW (GIỮ NGUYÊN) ---
         rvBookmarks = view.findViewById(R.id.rvBookmarks);
         rvBookmarks.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new BookmarkAdapter(list, requireContext());
         rvBookmarks.setAdapter(adapter);
 
+        // Load dữ liệu lần đầu
         loadBookmarks();
         return view;
     }
@@ -53,10 +73,12 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // Load lại mỗi khi quay lại màn hình này (để cập nhật nếu có thay đổi)
         loadBookmarks();
     }
 
 
+    // --- 3. GỌI API (GIỮ NGUYÊN CẤU TRÚC CŨ) ---
     private void loadBookmarks() {
         SharedPreferences sp =
                 requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
@@ -82,9 +104,11 @@ public class BookmarkFragment extends Fragment {
                             @NonNull Call<BookmarkListResponse> call,
                             @NonNull Throwable t
                     ) {
-                        Toast.makeText(getContext(),
-                                "Không tải được bookmark",
-                                Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(),
+                                    "Không tải được bookmark",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }

@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7F9"
+    android:background="#F5F7FA"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="30dp">
+        android:paddingBottom="40dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_header_gradient"
-            android:paddingTop="50dp"
-            android:paddingBottom="40dp">
+            android:background="#FFFFFF"
+            android:paddingBottom="24dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:background="@drawable/bg_header_gradient"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardAvatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginTop="80dp"
                 app:cardCornerRadius="50dp"
-                app:cardElevation="8dp"
+                app:cardElevation="4dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +41,7 @@
                     android:id="@+id/imgAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="2dp"
                     android:src="@drawable/logo_edu"
                     android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
@@ -43,18 +50,14 @@
                 android:id="@+id/tvSettingName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:text="Người dùng EduConnect"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
+                android:textColor="#212121"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:shadowColor="#40000000"
-                android:shadowDx="0"
-                android:shadowDy="2"
-                android:shadowRadius="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardAvatar" />
+                app:layout_constraintTop_toBottomOf="@+id/cardAvatar" />
 
             <TextView
                 android:id="@+id/tvSettingEmail"
@@ -62,11 +65,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="email@example.com"
-                android:textColor="#CCFFFFFF"
-                android:textSize="15sp"
+                android:textColor="#757575"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSettingName" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -74,90 +77,143 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="Tài khoản"
-            android:textColor="#757575"
+            android:textColor="#212121"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_chat_input"
-            android:orientation="vertical"
-            android:elevation="2dp"
-            android:padding="5dp">
+            android:background="@drawable/bg_white_rounded_card"
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_person_24"
-                android:drawableEnd="@drawable/ic_arrow_forward"
-                android:drawablePadding="16dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="Thông tin cá nhân"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                app:drawableTint="#0D47A1"/>
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginHorizontal="16dp"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_person_24"
+                    app:tint="#1976D2"/>
 
-            <TextView
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="Thông tin cá nhân"
+                    android:textColor="#212121"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="#BDBDBD"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" android:layout_marginHorizontal="16dp"/>
+
+            <LinearLayout
                 android:id="@+id/btnChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_lock_24"
-                android:drawableEnd="@drawable/ic_arrow_forward"
-                android:drawablePadding="16dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="Đổi mật khẩu"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                app:drawableTint="#0D47A1"/>
-        </LinearLayout>
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_lock_24"
+                    app:tint="#1976D2"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="Đổi mật khẩu"
+                    android:textColor="#212121"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="#BDBDBD"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="Cài đặt ứng dụng"
-            android:textColor="#757575"
+            android:textColor="#212121"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_chat_input"
-            android:orientation="vertical"
-            android:elevation="2dp"
-            android:padding="5dp">
+            android:background="@drawable/bg_white_rounded_card"
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/btnLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_language_24"
-                android:drawableEnd="@drawable/ic_arrow_forward"
-                android:drawablePadding="16dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="Ngôn ngữ"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                app:drawableTint="#0D47A1"/>
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginHorizontal="16dp"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_language_24"
+                    app:tint="#1976D2"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="Ngôn ngữ"
+                    android:textColor="#212121"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiếng Việt"
+                    android:textColor="#1976D2"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="#BDBDBD"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" android:layout_marginHorizontal="16dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,7 +225,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_notifications_24"
-                    app:tint="#0D47A1"/>
+                    app:tint="#1976D2"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -177,15 +233,16 @@
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
                     android:text="Nhận thông báo"
-                    android:textColor="#333333"
-                    android:textSize="16sp"/>
+                    android:textColor="#212121"
+                    android:textSize="15sp"/>
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchNotification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"/>
+                    app:trackTint="#BBDEFB"
+                    app:thumbTint="#1976D2"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -193,61 +250,90 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="Khác"
-            android:textColor="#757575"
+            android:textColor="#212121"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/btnAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:background="@drawable/bg_chat_input"
-            android:orientation="vertical"
-            android:elevation="2dp"
-            android:padding="5dp">
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_white_rounded_card"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_info_24"
+                app:tint="#1976D2"/>
 
             <TextView
-                android:id="@+id/btnAbout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/ic_info_24"
-                android:drawableEnd="@drawable/ic_arrow_forward"
-                android:drawablePadding="16dp"
-                android:gravity="center_vertical"
-                android:padding="16dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
                 android:text="Về EduConnect"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                app:drawableTint="#0D47A1"/>
+                android:textColor="#212121"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="#BDBDBD"/>
         </LinearLayout>
 
-        <Button
+        <LinearLayout
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="40dp"
-            android:backgroundTint="#FFEBEE"
-            android:text="Đăng xuất"
-            android:textColor="#D32F2F"
-            android:textStyle="bold"
-            android:drawableStart="@drawable/ic_logout_24"
-            android:drawableTint="#D32F2F"
-            android:paddingVertical="12dp"
-            android:elevation="0dp"/>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_rounded_card"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_logout_24"
+                app:tint="#F44336"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:text="Đăng xuất"
+                android:textColor="#F44336"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="#FFCDD2"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Phiên bản 1.0.0"
+            android:layout_marginTop="20dp"
             android:gravity="center"
+            android:text="Phiên bản 1.0.0"
             android:textColor="#9E9E9E"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="12sp"/>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

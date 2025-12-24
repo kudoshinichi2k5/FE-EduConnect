@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView; // 1. Thêm import ImageView
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,9 +47,20 @@ public class MentorFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_mentor, container, false);
 
+        // Ánh xạ các View cũ
         rvMentorList = view.findViewById(R.id.rvMentorList);
         searchMentor = view.findViewById(R.id.searchMentor);
 
+        // 2. THÊM ÁNH XẠ NÚT BACK VÀ SỰ KIỆN CLICK
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            // Quay lại trang trước (Giả lập nút Back cứng của điện thoại)
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        // Setup RecyclerView
         rvMentorList.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new MentorAdapter(displayList, requireContext());
         rvMentorList.setAdapter(adapter);
@@ -102,11 +114,9 @@ public class MentorFragment extends Fragment {
 
                     Log.d(TAG, "Mentor size: " + displayList.size());
                 } else {
-                    Toast.makeText(
-                            requireContext(),
-                            "Không tải được mentor",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    if (getContext() != null) {
+                        Toast.makeText(requireContext(), "Không tải được mentor", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -116,11 +126,9 @@ public class MentorFragment extends Fragment {
                     @NonNull Throwable t
             ) {
                 Log.e(TAG, "onFailure", t);
-                Toast.makeText(
-                        requireContext(),
-                        "Lỗi kết nối server",
-                        Toast.LENGTH_SHORT
-                ).show();
+                if (getContext() != null) {
+                    Toast.makeText(requireContext(), "Lỗi kết nối server", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

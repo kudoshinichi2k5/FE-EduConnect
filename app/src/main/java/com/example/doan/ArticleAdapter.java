@@ -18,6 +18,8 @@ import com.example.doan.api.ApiService;
 import com.example.doan.model.Article;
 import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.BookmarkRequest;
+import com.example.doan.utils.TimeUtils;
+
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -71,7 +73,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         );
 
         // ========= DATE =========
-        holder.tvDate.setText(formatDate(article.getCreatedAt()));
+        if (article.getCreatedAt() != null) {
+            holder.tvDate.setText(
+                    TimeUtils.formatTimeAgo(article.getCreatedAt())
+            );
+        } else {
+            holder.tvDate.setText("");
+        }
+
 
         // ========= IMAGE =========
         if (article.getImageUrl() != null && !article.getImageUrl().isEmpty()) {

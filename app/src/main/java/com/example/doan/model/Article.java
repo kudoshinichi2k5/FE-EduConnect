@@ -1,6 +1,7 @@
 package com.example.doan.model;
 
 public class Article {
+
     private String MaBaiViet;
     private String Title;
     private String Content;
@@ -12,8 +13,6 @@ public class Article {
     public String getTitle() { return Title; }
     public String getContent() { return Content; }
     public String getCategory() { return Category; }
-
-    // 🔥 QUAN TRỌNG
     public String getImageUrl() { return Image_url; }
     public String getCreatedAt() { return Created_at; }
 }

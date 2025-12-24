@@ -2,6 +2,7 @@ package com.example.doan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Article;
@@ -20,11 +22,8 @@ import com.example.doan.model.BookmarkCheckResponse;
 import com.example.doan.model.BookmarkRequest;
 import com.example.doan.utils.TimeUtils;
 
-
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -33,16 +32,17 @@ import retrofit2.Response;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
 
-    private final List<Article> articleList;
+    private final List<Article> list;
     private final Context context;
-    private final String uid;
+    private final String maNguoiDung;
 
+    // Cache bookmark
     private final Map<String, Boolean> bookmarkCache = new HashMap<>();
 
-    public ArticleAdapter(List<Article> articleList, Context context, String uid) {
-        this.articleList = articleList;
+    public ArticleAdapter(List<Article> list, Context context, String maNguoiDung) {
+        this.list = list;
         this.context = context;
-        this.uid = uid;
+        this.maNguoiDung = maNguoiDung;
     }
 
     private String key(String id) {
@@ -59,141 +59,141 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Article article = articleList.get(position);
-        String articleId = article.getMaBaiViet();
+        Article a = list.get(position);
+        String id = a.getMaBaiViet();
 
-        // ========= TITLE =========
-        holder.tvTitle.setText(article.getTitle());
+        // === TITLE ===
+        holder.tvTitle.setText(a.getTitle());
 
-        // ========= CATEGORY =========
-        holder.tvCategory.setText(
-                article.getCategory() != null && !article.getCategory().isEmpty()
-                        ? article.getCategory()
-                        : "Kiến thức"
-        );
-
-        // ========= DATE =========
-        if (article.getCreatedAt() != null) {
-            holder.tvDate.setText(
-                    TimeUtils.formatTimeAgo(article.getCreatedAt())
-            );
-        } else {
-            holder.tvDate.setText("");
-        }
-
-
-        // ========= IMAGE =========
-        if (article.getImageUrl() != null && !article.getImageUrl().isEmpty()) {
+        // === ẢNH BÌA ===
+        String imageUrl = a.getImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
             Glide.with(context)
-                    .load(article.getImageUrl())
+                    .load(imageUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.uit)
                     .error(R.drawable.uit)
-                    .into(holder.imgThumb);
+                    .into(holder.ivImage);
         } else {
-            holder.imgThumb.setImageResource(R.drawable.uit);
+            holder.ivImage.setImageResource(R.drawable.uit);
         }
 
-        // ========= BOOKMARK =========
+        // === CATEGORY BADGE ===
+        String category = a.getCategory();
+        if (category != null && !category.isEmpty()) {
+            holder.tvCategory.setText(formatCategory(category));
+        } else {
+            holder.tvCategory.setText("Kiến thức");
+        }
+
+        // === THỜI GIAN ===
+        String timeAgo = TimeUtils.formatTimeAgo(a.getCreatedAt());
+        holder.tvTimeAgo.setText(timeAgo.isEmpty() ? "Vừa xong" : timeAgo);
+
+        // === BOOKMARK ICON ===
         holder.ivBookmark.setImageResource(R.drawable.ic_bookmark_border);
 
-        if (bookmarkCache.containsKey(key(articleId))) {
-            updateIcon(holder.ivBookmark, bookmarkCache.get(key(articleId)));
+        if (bookmarkCache.containsKey(key(id))) {
+            updateIcon(holder.ivBookmark, bookmarkCache.get(key(id)));
         } else {
-            checkBookmark(articleId, holder.ivBookmark);
+            checkBookmark(id, holder.ivBookmark);
         }
 
-        holder.ivBookmark.setOnClickListener(v ->
-                toggleBookmark(articleId, holder.ivBookmark)
-        );
-
-        // ========= CLICK DETAIL =========
+        // === CLICK LISTENERS ===
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ArticleDetailActivity.class);
-            intent.putExtra("MA_BAI_VIET", articleId);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            Intent i = new Intent(context, ArticleDetailActivity.class);
+            i.putExtra("MA_BAI_VIET", id);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
         });
+
+        holder.ivBookmark.setOnClickListener(v -> toggleBookmark(id, holder.ivBookmark));
     }
 
     @Override
     public int getItemCount() {
-        return articleList.size();
+        return list.size();
     }
 
-    // ================= BOOKMARK =================
+    // ===== BOOKMARK LOGIC =====
 
-    private void checkBookmark(String articleId, ImageView iv) {
-        if (uid == null || uid.isEmpty()) return;
+    private void checkBookmark(String id, ImageView iv) {
+        if (maNguoiDung.isEmpty()) return;
 
         ApiClient.getClient().create(ApiService.class)
-                .checkBookmark(uid, articleId, "article")
+                .checkBookmark(maNguoiDung, id, "article")
                 .enqueue(new Callback<BookmarkCheckResponse>() {
                     @Override
-                    public void onResponse(Call<BookmarkCheckResponse> call,
-                                           Response<BookmarkCheckResponse> response) {
+                    public void onResponse(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Response<BookmarkCheckResponse> response
+                    ) {
                         if (response.isSuccessful() && response.body() != null) {
                             boolean saved = response.body().isBookmarked();
-                            bookmarkCache.put(key(articleId), saved);
+                            bookmarkCache.put(key(id), saved);
                             updateIcon(iv, saved);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<BookmarkCheckResponse> call, Throwable t) {
-                    }
+                    public void onFailure(
+                            @NonNull Call<BookmarkCheckResponse> call,
+                            @NonNull Throwable t
+                    ) {}
                 });
     }
 
-    private void toggleBookmark(String articleId, ImageView iv) {
-        if (uid == null || uid.isEmpty()) {
+    private void toggleBookmark(String id, ImageView iv) {
+        if (maNguoiDung.isEmpty()) {
             Toast.makeText(context, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        boolean current = bookmarkCache.getOrDefault(key(articleId), false);
-        BookmarkRequest req = new BookmarkRequest(uid, articleId, "article");
+        boolean current = bookmarkCache.getOrDefault(key(id), false);
+        BookmarkRequest req = new BookmarkRequest(maNguoiDung, id, "article");
 
         ApiService api = ApiClient.getClient().create(ApiService.class);
 
         if (!current) {
             api.addBookmark(req).enqueue(new SimpleCallback(() -> {
-                bookmarkCache.put(key(articleId), true);
+                bookmarkCache.put(key(id), true);
                 updateIcon(iv, true);
+                Toast.makeText(context, "Đã lưu", Toast.LENGTH_SHORT).show();
             }));
         } else {
             api.removeBookmark(req).enqueue(new SimpleCallback(() -> {
-                bookmarkCache.put(key(articleId), false);
+                bookmarkCache.put(key(id), false);
                 updateIcon(iv, false);
+                Toast.makeText(context, "Đã bỏ lưu", Toast.LENGTH_SHORT).show();
             }));
         }
     }
 
     private void updateIcon(ImageView iv, boolean saved) {
         iv.setImageResource(
-                saved ? R.drawable.ic_bookmark_filled
-                        : R.drawable.ic_bookmark_border
+                saved ? R.drawable.ic_bookmark_filled : R.drawable.ic_bookmark_border
         );
     }
 
-    // ========= DATE FORMAT =========
-    private String formatDate(String raw) {
-        try {
-            SimpleDateFormat input =
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            SimpleDateFormat output =
-                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            return output.format(input.parse(raw));
-        } catch (Exception e) {
-            return "Mới cập nhật";
+    // ===== HELPER =====
+
+    private String formatCategory(String raw) {
+        // Map English to Vietnamese
+        switch (raw.toLowerCase()) {
+            case "career": return "Nghề nghiệp";
+            case "soft-skills": return "Kỹ năng mềm";
+            case "university": return "Đại học";
+            case "study-abroad": return "Du học";
+            case "career-guidance": return "Định hướng";
+            case "interview-tips": return "Phỏng vấn";
+            default: return raw;
         }
     }
 
+    // ===== SIMPLE CALLBACK =====
     static class SimpleCallback implements Callback<Void> {
         Runnable onSuccess;
-
-        SimpleCallback(Runnable r) {
-            onSuccess = r;
-        }
+        SimpleCallback(Runnable r) { onSuccess = r; }
 
         @Override
         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -203,21 +203,21 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         }
 
         @Override
-        public void onFailure(Call<Void> call, Throwable t) {
-        }
+        public void onFailure(Call<Void> call, Throwable t) {}
     }
 
+    // ===== VIEW HOLDER =====
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvCategory, tvDate;
-        ImageView imgThumb, ivBookmark;
+        ImageView ivImage, ivBookmark;
+        TextView tvTitle, tvCategory, tvTimeAgo;
 
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvArticleTitle);
-            tvCategory = itemView.findViewById(R.id.tvCategory);
-            tvDate = itemView.findViewById(R.id.tvDate);
-            imgThumb = itemView.findViewById(R.id.imgArticleThumb);
-            ivBookmark = itemView.findViewById(R.id.ivBookmark);
+        ViewHolder(@NonNull View v) {
+            super(v);
+            ivImage = v.findViewById(R.id.ivArticleImage);
+            ivBookmark = v.findViewById(R.id.ivBookmark);
+            tvTitle = v.findViewById(R.id.tvArticleTitle);
+            tvCategory = v.findViewById(R.id.tvCategory);
+            tvTimeAgo = v.findViewById(R.id.tvTimeAgo);
         }
     }
 }

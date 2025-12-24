@@ -51,6 +51,16 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
 
+            <TextView
+                android:id="@+id/tvDetailDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 giờ trước"
+                android:textSize="13sp"
+                android:textColor="#9E9E9E"
+                android:layout_marginBottom="16dp" />
+
+
             <!-- CONTENT -->
             <TextView
                 android:id="@+id/tvDetailContent"

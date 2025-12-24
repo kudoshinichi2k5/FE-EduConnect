@@ -14,30 +14,35 @@ import com.example.doan.api.ApiService;
 import com.example.doan.model.Article;
 import com.example.doan.utils.TimeUtils;
 
-
+import io.noties.markwon.Markwon;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ArticleDetailActivity extends AppCompatActivity {
 
-    ImageView imgArticle;
-    TextView tvTitle, tvContent, tvCategory;
-    TextView tvDate;
+    private ImageView imgDetail;
+    private TextView tvTitle, tvCategory, tvDate, tvContent;
+
+    // 🔥 MARKDOWN ENGINE
+    private Markwon markwon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
-        // ===== MAP VIEW =====
-        imgArticle = findViewById(R.id.imgDetailArticle);
+        // ===== INIT MARKWON =====
+        markwon = Markwon.create(this);
+
+        // ===== ÁNH XẠ VIEW =====
+        imgDetail = findViewById(R.id.imgDetailArticle);
         tvTitle = findViewById(R.id.tvDetailTitle);
-        tvContent = findViewById(R.id.tvDetailContent);
         tvCategory = findViewById(R.id.tvDetailCategory);
         tvDate = findViewById(R.id.tvDetailDate);
+        tvContent = findViewById(R.id.tvDetailContent);
 
-        // ===== GET ID =====
+        // ===== NHẬN ID BÀI VIẾT =====
         String maBaiViet = getIntent().getStringExtra("MA_BAI_VIET");
 
         if (maBaiViet == null || maBaiViet.isEmpty()) {
@@ -59,37 +64,45 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     public void onResponse(
                             @NonNull Call<Article> call,
                             @NonNull Response<Article> response
-
                     ) {
                         if (response.isSuccessful() && response.body() != null) {
+
                             Article article = response.body();
 
-                            // ===== TEXT =====
+                            // ===== TITLE =====
                             tvTitle.setText(article.getTitle());
-                            tvContent.setText(article.getContent());
+
+                            // ===== CATEGORY =====
                             tvCategory.setText(
                                     article.getCategory() != null
                                             ? article.getCategory()
                                             : "Kiến thức"
                             );
 
+                            // ===== THỜI GIAN =====
                             if (article.getCreatedAt() != null) {
                                 tvDate.setText(
                                         TimeUtils.formatTimeAgo(article.getCreatedAt())
                                 );
                             }
 
+                            // ===== MARKDOWN CONTENT =====
+                            if (article.getContent() != null) {
+                                markwon.setMarkdown(
+                                        tvContent,
+                                        article.getContent()
+                                );
+                            }
+
                             // ===== IMAGE =====
                             if (article.getImageUrl() != null &&
                                     !article.getImageUrl().isEmpty()) {
-
                                 Glide.with(ArticleDetailActivity.this)
                                         .load(article.getImageUrl())
                                         .placeholder(R.drawable.uit)
-                                        .error(R.drawable.uit)
-                                        .into(imgArticle);
+                                        .into(imgDetail);
                             } else {
-                                imgArticle.setImageResource(R.drawable.uit);
+                                imgDetail.setImageResource(R.drawable.uit);
                             }
 
                         } else {

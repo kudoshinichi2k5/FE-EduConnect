@@ -139,6 +139,16 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             tvTypeBadge.setBackgroundResource(R.drawable.badge_default);
         }
 
+        // ===== HIỂN THỊ NÚT ĐĂNG KÝ =====
+        if ("scholarship".equalsIgnoreCase(o.getType())
+                && o.getContentUrl() != null
+                && !o.getContentUrl().isEmpty()) {
+
+            btnRegister.setVisibility(View.VISIBLE);
+        } else {
+            btnRegister.setVisibility(View.GONE);
+        }
+
         // ===== THỜI GIAN =====
         String timeAgo = TimeUtils.formatTimeAgo(o.getCreatedAt());
         tvDate.setText(timeAgo.isEmpty() ? "Vừa xong" : timeAgo);

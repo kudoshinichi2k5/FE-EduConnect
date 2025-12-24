@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#FFFFFF"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvDetailTitle"
+        <!-- ===== IMAGE HEADER ===== -->
+        <ImageView
+            android:id="@+id/imgDetailArticle"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/uit" />
+
+        <!-- ===== CONTENT ===== -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tiêu đề bài viết"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvDetailCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category"
-            android:textSize="14sp"
-            android:textColor="#FF9800"
-            android:layout_marginBottom="12dp" />
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tiêu đề bài viết"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:id="@+id/tvDetailContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nội dung bài viết"
-            android:textSize="16sp"
-            android:lineSpacingExtra="6dp"
-            android:textColor="#444444" />
+            <!-- CATEGORY -->
+            <TextView
+                android:id="@+id/tvDetailCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_blue_light"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:text="Kiến thức"
+                android:textColor="#1565C0"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <!-- CONTENT -->
+            <TextView
+                android:id="@+id/tvDetailContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nội dung bài viết"
+                android:textSize="16sp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="#444444" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

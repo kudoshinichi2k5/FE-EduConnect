@@ -42,6 +42,13 @@ public class ArticleDetailActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDetailDate);
         tvContent = findViewById(R.id.tvDetailContent);
 
+        // --- MỚI: XỬ LÝ NÚT BACK ---
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
+            // Đóng Activity hiện tại -> Tự động quay về trang trước (Trang chủ)
+            finish();
+        });
+
         // ===== NHẬN ID BÀI VIẾT =====
         String maBaiViet = getIntent().getStringExtra("MA_BAI_VIET");
 

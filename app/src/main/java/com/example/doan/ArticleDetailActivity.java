@@ -1,12 +1,14 @@
 package com.example.doan;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.doan.api.ApiClient;
 import com.example.doan.api.ApiService;
 import com.example.doan.model.Article;
@@ -17,6 +19,7 @@ import retrofit2.Response;
 
 public class ArticleDetailActivity extends AppCompatActivity {
 
+    ImageView imgArticle;
     TextView tvTitle, tvContent, tvCategory;
 
     @Override
@@ -24,13 +27,16 @@ public class ArticleDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
+        // ===== MAP VIEW =====
+        imgArticle = findViewById(R.id.imgDetailArticle);
         tvTitle = findViewById(R.id.tvDetailTitle);
         tvContent = findViewById(R.id.tvDetailContent);
         tvCategory = findViewById(R.id.tvDetailCategory);
 
+        // ===== GET ID =====
         String maBaiViet = getIntent().getStringExtra("MA_BAI_VIET");
 
-        if (maBaiViet == null) {
+        if (maBaiViet == null || maBaiViet.isEmpty()) {
             Toast.makeText(this, "Không tìm thấy bài viết", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -44,6 +50,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
                 .create(ApiService.class)
                 .getArticleById(id)
                 .enqueue(new Callback<Article>() {
+
                     @Override
                     public void onResponse(
                             @NonNull Call<Article> call,
@@ -51,9 +58,29 @@ public class ArticleDetailActivity extends AppCompatActivity {
                     ) {
                         if (response.isSuccessful() && response.body() != null) {
                             Article article = response.body();
+
+                            // ===== TEXT =====
                             tvTitle.setText(article.getTitle());
                             tvContent.setText(article.getContent());
-                            tvCategory.setText(article.getCategory());
+                            tvCategory.setText(
+                                    article.getCategory() != null
+                                            ? article.getCategory()
+                                            : "Kiến thức"
+                            );
+
+                            // ===== IMAGE =====
+                            if (article.getImageUrl() != null &&
+                                    !article.getImageUrl().isEmpty()) {
+
+                                Glide.with(ArticleDetailActivity.this)
+                                        .load(article.getImageUrl())
+                                        .placeholder(R.drawable.uit)
+                                        .error(R.drawable.uit)
+                                        .into(imgArticle);
+                            } else {
+                                imgArticle.setImageResource(R.drawable.uit);
+                            }
+
                         } else {
                             Toast.makeText(
                                     ArticleDetailActivity.this,

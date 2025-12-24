@@ -12,7 +12,8 @@ public class Article {
     public String getTitle() { return Title; }
     public String getContent() { return Content; }
     public String getCategory() { return Category; }
-    public String getImage_url() { return Image_url; }
-    public String getCreated_at() { return Created_at; }
-}
 
+    // 🔥 QUAN TRỌNG
+    public String getImageUrl() { return Image_url; }
+    public String getCreatedAt() { return Created_at; }
+}

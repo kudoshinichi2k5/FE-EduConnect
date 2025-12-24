@@ -64,4 +64,8 @@ dependencies {
     implementation("io.noties.markwon:ext-tasklist:4.6.2")
     implementation("io.noties.markwon:linkify:4.6.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("io.noties.markwon:image:4.6.2")
+    implementation("io.noties.markwon:html:4.6.2")
+    implementation("io.noties.markwon:recycler:4.6.2")
+    implementation("io.noties.markwon:editor:4.6.2")
 }

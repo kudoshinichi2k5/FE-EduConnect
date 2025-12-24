@@ -12,76 +12,122 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Header: Title + Bookmark Icon -->
-        <RelativeLayout
+        <!-- ẢNH BÌA -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+            <ImageView
+                android:id="@+id/ivOpportunityImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/uit"
+                android:contentDescription="Ảnh cơ hội" />
+
+            <!-- Gradient overlay cho text dễ đọc -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_overlay" />
+
+            <!-- TYPE BADGE (Học bổng, Cuộc thi, Sự kiện) -->
+            <TextView
+                android:id="@+id/tvTypeBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_margin="12dp"
+                android:background="@drawable/badge_scholarship"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:text="Học bổng"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- BOOKMARK ICON (nổi trên ảnh) -->
+            <ImageView
+                android:id="@+id/ivBookmark"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="12dp"
+                android:src="@drawable/ic_bookmark_border"
+                android:padding="8dp"
+                android:background="@drawable/circle_white_bg"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="#FF9800"
+                android:contentDescription="Bookmark" />
+        </FrameLayout>
+
+        <!-- NỘI DUNG -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- Title -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/ivBookmark"
-                android:layout_marginEnd="8dp"
                 android:text="Học bổng Doanh nghiệp kì Fall 2025"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#0056D2" />
+                android:textColor="#0056D2"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="8dp"/>
 
-            <!-- ICON BOOKMARK -->
-            <ImageView
-                android:id="@+id/ivBookmark"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_bookmark_border"
-                android:padding="4dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:tint="#FF9800"
-                android:contentDescription="Bookmark" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cơ hội nhận học bổng trị giá 50% học phí dành cho sinh viên IT..."
-            android:textSize="14sp"
-            android:textColor="#555555"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_marginBottom="12dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
+            <!-- Description -->
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="0dp"
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="13/12/2025"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                android:drawablePadding="4dp"
-                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar" />
+                android:text="Cơ hội nhận học bổng trị giá 50% học phí dành cho sinh viên IT..."
+                android:textSize="14sp"
+                android:textColor="#555555"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Footer: Thời gian + Deadline -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Xem chi tiết >"
-                android:textStyle="bold"
-                android:textColor="#FF9800"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Thời gian đăng -->
+                <TextView
+                    android:id="@+id/tvTimeAgo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2 giờ trước"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:drawablePadding="4dp"
+                    app:drawableStartCompat="@android:drawable/ic_menu_recent_history" />
+
+                <!-- Deadline -->
+                <TextView
+                    android:id="@+id/tvDeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hạn: 30/12/2025"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#D32F2F"
+                    android:drawablePadding="4dp"
+                    app:drawableStartCompat="@android:drawable/ic_menu_my_calendar" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

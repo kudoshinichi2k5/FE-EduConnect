@@ -123,38 +123,6 @@
                     app:tint="#BDBDBD"/>
             </LinearLayout>
 
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" android:layout_marginHorizontal="16dp"/>
-
-            <LinearLayout
-                android:id="@+id/btnChangePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_lock_24"
-                    app:tint="#1976D2"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/change_password"
-                    android:textColor="#212121"
-                    android:textSize="15sp"/>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_forward"
-                    app:tint="#BDBDBD"/>
-            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -218,15 +186,18 @@
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" android:layout_marginHorizontal="16dp"/>
 
             <LinearLayout
+                android:id="@+id/btnAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_notifications_24"
+                    android:src="@drawable/ic_info_24"
                     app:tint="#1976D2"/>
 
                 <TextView
@@ -234,18 +205,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="@string/notification_toggle"
+                    android:text="@string/about_us"
                     android:textColor="#212121"
                     android:textSize="15sp"/>
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    app:trackTint="#BBDEFB"
-                    app:thumbTint="#1976D2"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="#BDBDBD"/>
             </LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -260,45 +230,11 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/btnAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/bg_white_rounded_card"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_info_24"
-                app:tint="#1976D2"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:text="@string/about_us"
-                android:textColor="#212121"
-                android:textSize="15sp"/>
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_arrow_forward"
-                app:tint="#BDBDBD"/>
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/bg_white_rounded_card"
             android:gravity="center_vertical"
             android:padding="16dp"

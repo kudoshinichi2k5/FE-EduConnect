@@ -20,6 +20,9 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back_24"
             app:tint="#FFFFFF"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -36,14 +39,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trợ lý AI EduConnect"
+                android:text="@string/bot_name"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Luôn sẵn sàng hỗ trợ"
+                android:text="@string/bot_status"
                 android:textColor="#E0E0E0"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -90,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_chat_input"
-            android:hint="Nhập tin nhắn..."
+            android:hint="@string/hint_chat_input"
             android:paddingHorizontal="20dp"
             android:paddingVertical="12dp"
             android:textSize="15sp"
@@ -102,7 +105,6 @@
             app:layout_constraintEnd_toStartOf="@+id/btnSendChat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/btnSendChat"
             android:layout_width="48dp"

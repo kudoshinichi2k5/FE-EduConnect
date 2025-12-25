@@ -35,7 +35,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Khám phá cơ hội"
+            android:text="@string/section_opportunity"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
-            app:queryHint="Tìm kiếm cơ hội (vd: FPT)..." />
+            app:queryHint="@string/hint_search_opportunity" />
     </androidx.cardview.widget.CardView>
 
     <HorizontalScrollView
@@ -83,7 +83,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tất cả"
+                android:text="@string/filter_all"
                 android:checked="true"
                 android:checkable="true"
                 app:checkedIconVisible="false"
@@ -93,12 +93,13 @@
                 app:chipStrokeColor="#1976D2"
                 app:chipStrokeWidth="1dp"
                 app:chipCornerRadius="8dp" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipScholarship"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Học bổng"
+                android:text="@string/filter_scholarship"
                 android:checkable="true"
                 app:checkedIconVisible="false"
 
@@ -113,7 +114,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cuộc thi"
+                android:text="@string/filter_contest"
                 android:checkable="true"
                 app:checkedIconVisible="false"
 
@@ -128,7 +129,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sự kiện"
+                android:text="@string/filter_event"
                 android:checkable="true"
                 app:checkedIconVisible="false"
 

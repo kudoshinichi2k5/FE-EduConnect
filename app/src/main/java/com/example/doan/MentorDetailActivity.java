@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MentorDetailActivity extends AppCompatActivity {
+public class MentorDetailActivity extends BaseActivity {
 
     CircleImageView imgAvatar;
     TextView tvName, tvJob, tvMajor;

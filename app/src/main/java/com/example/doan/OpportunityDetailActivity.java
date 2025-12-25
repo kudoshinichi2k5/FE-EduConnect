@@ -27,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OpportunityDetailActivity extends AppCompatActivity {
+public class OpportunityDetailActivity extends BaseActivity {
 
     ImageView ivBack, ivBookmark, ivDetailImage;
     TextView tvTitle, tvTypeBadge, tvDate, tvDeadline, tvContent;

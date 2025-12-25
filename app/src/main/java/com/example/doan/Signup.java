@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Signup extends AppCompatActivity {
+public class Signup extends BaseActivity {
 
     private EditText edtName, edtEmail, edtPassword, edtConfirm;
     private Button btnSignup;

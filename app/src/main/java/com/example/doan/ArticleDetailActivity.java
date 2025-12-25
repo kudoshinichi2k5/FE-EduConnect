@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ArticleDetailActivity extends AppCompatActivity {
+public class ArticleDetailActivity extends BaseActivity {
 
     ImageView ivBack, ivBookmark, ivDetailImage;
     TextView tvTitle, tvCategory, tvDate, tvContent;

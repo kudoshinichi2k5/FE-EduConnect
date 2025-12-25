@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_screen">
+
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="100dp"
@@ -17,13 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Edu Connect"
+        android:text="@string/app_name"
         android:textColor="#FFFFFF"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -36,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Kết nối tri thức - Vững bước tương lai"
+        android:text="@string/slogan"
         android:textColor="#E1F5FE"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +53,7 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSlogan">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Chào mừng trở lại!"
+                android:text="@string/welcome_back"
                 android:textColor="#0D47A1"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -70,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="Vui lòng đăng nhập để tiếp tục"
+                android:text="@string/login_subtitle"
                 android:textColor="#757575"
                 android:textSize="14sp" />
 
@@ -92,7 +95,7 @@
                     android:id="@+id/loginEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/hint_email"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +118,7 @@
                     android:id="@+id/loginpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mật khẩu"
+                    android:hint="@string/hint_password"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="24dp"
-                android:text="Quên mật khẩu?"
+                android:text="@string/btn_forgot_pass"
                 android:textColor="#1976D2"
                 android:textStyle="bold" />
 
@@ -135,7 +138,7 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="#2196F3"
-                android:text="ĐĂNG NHẬP"
+                android:text="@string/btn_login"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -146,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-                android:text="Hoặc đăng nhập với"
+                android:text="@string/label_or_login"
                 android:textColor="#9E9E9E" />
 
             <Button
@@ -155,13 +158,14 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="#F5F5F5"
-                android:text="Tiếp tục với Google"
+                android:text="@string/btn_google"
                 android:textColor="#333333"
                 android:textSize="14sp"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/ic_launcher_foreground"
                 app:iconTint="@null"
                 app:iconGravity="textStart" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,7 +175,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bạn chưa có tài khoản? "
+                    android:text="@string/text_no_account"
                     android:textColor="#757575" />
 
                 <TextView
@@ -179,12 +183,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Đăng ký ngay"
+                    android:text="@string/text_signup_now"
                     android:textColor="#FFC107"
                     android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

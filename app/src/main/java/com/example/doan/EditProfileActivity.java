@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends BaseActivity {
 
     private ImageView btnBack, imgAvatarEdit;
     private TextInputEditText edtFullName, edtPhone, edtEmail, edtDob;

@@ -41,9 +41,10 @@
                     android:id="@+id/imgAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="2dp"
-                    android:src="@drawable/logo_edu"
-                    android:scaleType="centerCrop" />
+                    android:background="@drawable/bg_header_gradient"
+                    android:padding="24dp"
+                    android:src="@drawable/ic_edu_symbol"
+                    android:scaleType="fitCenter" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -79,7 +80,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
-            android:text="Tài khoản"
+            android:text="@string/section_account"
             android:textColor="#212121"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -111,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="Thông tin cá nhân"
+                    android:text="@string/profile_info"
                     android:textColor="#212121"
                     android:textSize="15sp"/>
 
@@ -144,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="Đổi mật khẩu"
+                    android:text="@string/change_password"
                     android:textColor="#212121"
                     android:textSize="15sp"/>
 
@@ -162,7 +163,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
-            android:text="Cài đặt ứng dụng"
+            android:text="@string/section_app_settings"
             android:textColor="#212121"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -194,11 +195,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="Ngôn ngữ"
+                    android:text="@string/language"
                     android:textColor="#212121"
                     android:textSize="15sp"/>
 
                 <TextView
+                    android:id="@+id/tvCurrentLang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tiếng Việt"
@@ -232,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="16dp"
-                    android:text="Nhận thông báo"
+                    android:text="@string/notification_toggle"
                     android:textColor="#212121"
                     android:textSize="15sp"/>
 
@@ -252,7 +254,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
-            android:text="Khác"
+            android:text="@string/section_other"
             android:textColor="#212121"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -280,7 +282,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
-                android:text="Về EduConnect"
+                android:text="@string/about_us"
                 android:textColor="#212121"
                 android:textSize="15sp"/>
 
@@ -314,7 +316,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
-                android:text="Đăng xuất"
+                android:text="@string/logout"
                 android:textColor="#F44336"
                 android:textStyle="bold"
                 android:textSize="15sp"/>
@@ -331,7 +333,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Phiên bản 1.0.0"
+            android:text="@string/version_text"
             android:textColor="#9E9E9E"
             android:textSize="12sp"/>
 

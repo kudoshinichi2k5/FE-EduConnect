@@ -59,9 +59,12 @@ public class HomeFragment extends Fragment {
             SharedPreferences prefs =
                     getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
 
-            tvHelloUser.setText(
-                    "Xin chào, " + prefs.getString("USERNAME", "Bạn") + "! 👋"
-            );
+            // Lấy tên người dùng
+            String username = prefs.getString("USERNAME", "Bạn");
+
+            // --- SỬA ĐỔI Ở ĐÂY: Dùng getString có tham số (%s) ---
+            // Nó sẽ tự lấy chuỗi "Xin chào, %s! 👋" hoặc "Hello, %s! 👋" tùy ngôn ngữ
+            tvHelloUser.setText(getString(R.string.hello_user, username));
 
             uid = prefs.getString("USER_ID", "");
         }

@@ -1,9 +1,99 @@
 <resources>
-    <string name="app_name">doan</string>
-    <!-- Web client ID dùng cho Google Sign-In -->
-    <string name="default_web_client_id">
-        1072371388672-0p10fukpfdg71dkcjgefckjjsfhgknm6.apps.googleusercontent.com
-    </string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="default_web_client_id">1072371388672-0p10fukpfdg71dkcjgefckjjsfhgknm6.apps.googleusercontent.com</string>
+
+    <string name="app_name">Edu Connect</string>
+    <string name="slogan">Kết nối tri thức - Vững bước tương lai</string>
+
+    <string name="login_title">Đăng nhập</string>
+    <string name="signup_title">Tạo tài khoản</string>
+    <string name="forgot_pass_title">Quên mật khẩu</string>
+    <string name="welcome_back">Chào mừng trở lại!</string>
+    <string name="login_subtitle">Vui lòng đăng nhập để tiếp tục</string>
+    <string name="signup_subtitle">Điền thông tin để bắt đầu hành trình</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="hint_fullname">Họ và tên</string>
+    <string name="hint_re_password">Nhập lại mật khẩu</string>
+    <string name="hint_search">Tìm kiếm...</string>
+    <string name="hint_search_mentor">Tìm theo tên, chuyên ngành...</string>
+    <string name="hint_search_opportunity">Tìm kiếm cơ hội (vd: FPT)...</string>
+    <string name="hint_chat_input">Nhập tin nhắn...</string>
+
+    <string name="btn_login">ĐĂNG NHẬP</string>
+    <string name="btn_signup">ĐĂNG KÝ</string>
+    <string name="btn_google">Tiếp tục với Google</string>
+    <string name="btn_forgot_pass">Quên mật khẩu?</string>
+    <string name="btn_send_request">GỬI YÊU CẦU</string>
+    <string name="btn_back_login">Quay lại Đăng nhập</string>
+    <string name="btn_contact_mentor">Liên hệ Mentor</string>
+
+    <string name="text_no_account">Bạn chưa có tài khoản? </string>
+    <string name="text_has_account">Đã có tài khoản? </string>
+    <string name="text_signup_now">Đăng ký ngay</string>
+    <string name="text_login_now">Đăng nhập ngay</string>
+    <string name="text_forgot_instruction">Nhập email bạn đã dùng để đăng ký. Chúng tôi sẽ gửi link đặt lại mật khẩu cho bạn.</string>
+
+    <string name="hello_user">Xin chào, %s! 👋</string>
+    <string name="greeting_sub">Chúc bạn một ngày học tập tốt lành.</string>
+
+    <string name="section_opportunity">Cơ Hội Cùng EduConnect</string>
+    <string name="menu_opportunity">Khám phá\nCơ hội</string>
+    <string name="menu_mentor">Tìm kiếm\nMentor</string>
+    <string name="menu_chatbot">Trợ lý AI\nChat ngay</string>
+    <string name="menu_saved">Bài viết\nĐã lưu</string>
+
+    <string name="section_learning">Góc Học Tập &amp; Kỹ năng</string>
+
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_scholarship">Học bổng</string>
+    <string name="filter_contest">Cuộc thi</string>
+    <string name="filter_event">Sự kiện</string>
+
+    <string name="label_deadline">Hạn: %s</string>
+    <string name="label_read_now">Đọc ngay ></string>
+    <string name="label_posted_ago">%s trước</string>
+    <string name="label_saved_ago">Đã lưu %s trước</string>
+
+    <string name="detail_opportunity_title">Chi tiết cơ hội</string>
+    <string name="detail_article_title">Chi tiết bài viết</string>
+    <string name="detail_description_header">Mô tả chi tiết</string>
+    <string name="saved_articles_title">Bài viết đã lưu</string>
+
+    <string name="mentor_title">Mentor</string>
+    <string name="mentor_major">Chuyên ngành</string>
+
+    <string name="bot_name">Trợ lý AI EduConnect</string>
+    <string name="bot_status">Luôn sẵn sàng hỗ trợ</string>
+    <string name="bot_welcome_msg">Xin chào! Tôi là trợ lý AI EduConnect. Tôi có thể giúp gì cho bạn hôm nay?</string>
+
+    <string name="settings_title">Cài đặt</string>
+    <string name="section_account">Tài khoản</string>
+    <string name="section_app_settings">Cài đặt ứng dụng</string>
+    <string name="section_other">Khác</string>
+
+    <string name="profile_info">Thông tin cá nhân</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="notification_toggle">Nhận thông báo</string>
+    <string name="about_us">Về EduConnect</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="version_text">Phiên bản EduConnect 1.0</string>
+
+    <string name="dialog_language_title">Chọn ngôn ngữ</string>
+    <string name="dialog_logout_title">Đăng xuất</string>
+    <string name="dialog_logout_message">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="btn_cancel">Hủy</string>
+    <string name="btn_confirm">Đồng ý</string>
+    <string name="toast_noti_on">Đã BẬT thông báo</string>
+    <string name="toast_noti_off">Đã TẮT thông báo</string>
+    <string name="toast_need_permission">Bạn cần cấp quyền để nhận thông báo</string>
+    <string name="logout_success">Đăng xuất thành công</string>
+
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_opportunity">Cơ hội</string>
+    <string name="nav_chatbot">Chatbot</string>
+    <string name="nav_settings">Cài đặt</string>
+    <string name="label_or_login">Hoặc đăng nhập với</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -41,8 +41,7 @@
                     android:id="@+id/tvHelloUser"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Xin chào, Bạn! 👋"
-                    tools:text="Xin chào, Minh! 👋"
+                    tools:text="Xin chào, User! 👋"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -54,7 +53,7 @@
                     android:id="@+id/tvGreetingSub"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Chúc bạn một ngày học tập tốt lành."
+                    android:text="@string/greeting_sub"
                     android:textColor="#E0E0E0"
                     android:textSize="15sp"
                     android:layout_marginTop="4dp"
@@ -84,7 +83,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cơ Hội Cùng EduConnect"
+                    android:text="@string/section_opportunity"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#FF9800"
@@ -116,7 +115,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Khám phá\nCơ hội"
+                            android:text="@string/menu_opportunity"
                             android:gravity="center"
                             android:textSize="13sp"
                             android:textStyle="bold"
@@ -143,7 +142,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tìm kiếm\nMentor"
+                            android:text="@string/menu_mentor"
                             android:gravity="center"
                             android:textSize="13sp"
                             android:textStyle="bold"
@@ -170,7 +169,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Trợ lý AI\nChat ngay"
+                            android:text="@string/menu_chatbot"
                             android:gravity="center"
                             android:textSize="13sp"
                             android:textStyle="bold"
@@ -197,7 +196,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bài viết\nĐã lưu"
+                            android:text="@string/menu_saved"
                             android:gravity="center"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -224,12 +223,13 @@
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/school"
                 android:contentDescription="Icon học tập" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:background="@drawable/bg_capsule_outline"
-                android:text="Góc Học Tập &amp; Kỹ Năng"
+                android:text="@string/section_learning"
                 android:textColor="#1565C0"
                 android:textSize="16sp"
                 android:textStyle="bold"

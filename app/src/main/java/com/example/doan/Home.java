@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class Home extends AppCompatActivity {
+public class Home extends BaseActivity {
 
     BottomNavigationView bottomNav;
 

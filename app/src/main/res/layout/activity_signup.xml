@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_screen">
+
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="80dp"
@@ -16,13 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Edu Connect"
+        android:text="@string/app_name"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -50,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Tạo tài khoản mới"
+                android:text="@string/signup_title"
                 android:textColor="#0D47A1"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -59,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="Điền thông tin để bắt đầu hành trình"
+                android:text="@string/signup_subtitle"
                 android:textColor="#757575"
                 android:textSize="14sp" />
 
@@ -81,7 +83,7 @@
                     android:id="@+id/etFullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Họ và tên"
+                    android:hint="@string/hint_fullname"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +105,7 @@
                     android:id="@+id/signupemail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/hint_email"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,7 +128,7 @@
                     android:id="@+id/signuppassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mật khẩu"
+                    android:hint="@string/hint_password"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,7 +151,7 @@
                     android:id="@+id/signupcfpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nhập lại mật khẩu"
+                    android:hint="@string/hint_re_password"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +161,7 @@
                 android:layout_height="56dp"
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="#2196F3"
-                android:text="ĐĂNG KÝ TÀI KHOẢN"
+                android:text="@string/btn_signup"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -175,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đã có tài khoản? "
+                    android:text="@string/text_has_account"
                     android:textColor="#757575" />
 
                 <TextView
@@ -183,12 +185,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Đăng nhập ngay"
+                    android:text="@string/text_login_now"
                     android:textColor="#FFC107"
                     android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

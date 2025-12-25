@@ -1,0 +1,100 @@
+<resources>
+    <string name="default_web_client_id">1072371388672-0p10fukpfdg71dkcjgefckjjsfhgknm6.apps.googleusercontent.com</string>
+
+    <string name="app_name">Edu Connect</string>
+    <string name="slogan">连接知识 - 迈向未来</string>
+
+    <string name="login_title">登录</string>
+    <string name="signup_title">创建账户</string>
+    <string name="forgot_pass_title">忘记密码</string>
+    <string name="welcome_back">欢迎回来！</string>
+    <string name="login_subtitle">请登录以继续</string>
+    <string name="signup_subtitle">填写信息开启您的旅程</string>
+
+    <string name="hint_email">电子邮件</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_fullname">全名</string>
+    <string name="hint_re_password">确认密码</string>
+    <string name="hint_search">搜索...</string>
+    <string name="hint_search_mentor">按姓名、专业搜索...</string>
+    <string name="hint_search_opportunity">搜索机会（例如：FPT）...</string>
+    <string name="hint_chat_input">输入消息...</string>
+
+    <string name="btn_login">登录</string>
+    <string name="btn_signup">注册</string>
+    <string name="btn_google">继续使用 Google</string>
+    <string name="btn_forgot_pass">忘记密码？</string>
+    <string name="btn_send_request">发送请求</string>
+    <string name="btn_back_login">返回登录</string>
+    <string name="btn_contact_mentor">联系导师</string>
+
+    <string name="text_no_account">还没有账户？ </string>
+    <string name="text_has_account">已有账户？ </string>
+    <string name="text_signup_now">立即注册</string>
+    <string name="text_login_now">立即登录</string>
+    <string name="text_forgot_instruction">输入您的注册邮箱。我们将向您发送重置密码链接。</string>
+
+    <string name="hello_user">你好, %s! 👋</string>
+    <string name="greeting_sub">祝你学习愉快。</string>
+
+    <string name="section_opportunity">EduConnect 的机会</string>
+    <string name="menu_opportunity">探索\n机会</string>
+    <string name="menu_mentor">寻找\n导师</string>
+    <string name="menu_chatbot">AI 助手\n立即聊天</string>
+    <string name="menu_saved">已保存\n文章</string>
+
+    <string name="section_learning">学习角与技能</string>
+
+    <string name="filter_all">全部</string>
+    <string name="filter_scholarship">奖学金</string>
+    <string name="filter_contest">比赛</string>
+    <string name="filter_event">活动</string>
+
+    <string name="label_deadline">截止: %s</string>
+    <string name="label_read_now">立即阅读 ></string>
+    <string name="label_posted_ago">%s 前</string>
+    <string name="label_saved_ago">已保存 %s 前</string>
+
+    <string name="detail_opportunity_title">机会详情</string>
+    <string name="detail_article_title">文章详情</string>
+    <string name="detail_description_header">详细描述</string>
+    <string name="saved_articles_title">已保存的文章</string>
+
+    <string name="mentor_title">导师</string>
+    <string name="mentor_major">专业</string>
+
+    <string name="bot_name">EduConnect AI 助手</string>
+    <string name="bot_status">随时为您服务</string>
+    <string name="bot_welcome_msg">你好！我是 EduConnect AI。今天有什么可以帮你吗？</string>
+
+    <string name="settings_title">设置</string>
+    <string name="section_account">账户</string>
+    <string name="section_app_settings">应用设置</string>
+    <string name="section_other">其他</string>
+
+    <string name="profile_info">个人信息</string>
+    <string name="change_password">修改密码</string>
+    <string name="language">语言</string>
+    <string name="notification_toggle">接收通知</string>
+    <string name="about_us">关于 EduConnect</string>
+    <string name="logout">退出登录</string>
+    <string name="version_text">EduConnect 版本 1.0</string>
+
+    <string name="dialog_language_title">选择语言</string>
+    <string name="dialog_logout_title">退出登录</string>
+    <string name="dialog_logout_message">您确定要退出吗？</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_confirm">退出</string>
+    <string name="toast_noti_on">通知已开启</string>
+    <string name="toast_noti_off">通知已关闭</string>
+    <string name="toast_need_permission">需要开启通知权限</string>
+    <string name="logout_success">退出成功</string>
+
+    <string name="nav_home">首页</string>
+    <string name="nav_opportunity">机会</string>
+    <string name="nav_chatbot">机器人</string>
+    <string name="nav_settings">设置</string>
+    <string name="label_or_login">或者使用</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

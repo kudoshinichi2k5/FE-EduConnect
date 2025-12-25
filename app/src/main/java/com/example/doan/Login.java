@@ -34,7 +34,7 @@ import retrofit2.Response;
 // 2. Đăng nhập bằng Google (Qua Google Sign-In & Firebase)
 // 3. Đồng bộ dữ liệu với Backend Server (API)
 // ============================================================================
-public class Login extends AppCompatActivity {
+public class Login extends BaseActivity {
 
     // Khai báo biến giao diện
     private EditText edtEmail, edtPassword;

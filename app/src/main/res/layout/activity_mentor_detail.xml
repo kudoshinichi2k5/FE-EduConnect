@@ -3,29 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F5F9FF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="40dp">
+        android:paddingBottom="24dp">
 
+        <!-- ================= HEADER ================= -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_header_gradient"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingVertical="40dp">
+            android:paddingTop="40dp"
+            android:paddingBottom="32dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgDetailAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:src="@drawable/ic_person_24"
                 app:civ_border_width="3dp"
-                app:civ_border_color="#FFFFFF"/>
+                app:civ_border_color="#FFFFFF" />
 
             <TextView
                 android:id="@+id/tvDetailName"
@@ -35,45 +37,97 @@
                 android:text="Tên Mentor"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvDetailJob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chức vụ - Công ty"
+                android:layout_marginTop="4dp"
+                android:text="Chức vụ - Nơi làm việc"
                 android:textColor="#E3F2FD"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <!-- ================= INFO CARD ================= -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
 
-            <TextView
-                android:text="Chuyên ngành"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#0D47A1"/>
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <TextView
-                android:id="@+id/tvDetailMajor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="..."
-                android:layout_marginBottom="32dp"/>
+                <!-- TITLE -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📚 Thông tin Mentor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#0D47A1"
+                    android:layout_marginBottom="16dp" />
 
-            <Button
-                android:id="@+id/btnContact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Liên hệ Mentor"
-                android:backgroundTint="#0D47A1"
-                android:textColor="#FFFFFF"/>
-        </LinearLayout>
+                <!-- MAJOR LABEL -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chuyên ngành"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#333333" />
+
+                <!-- MAJOR -->
+                <TextView
+                    android:id="@+id/tvDetailMajor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý sản phẩm số"
+                    android:textSize="15sp"
+                    android:textColor="#555555"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- CONTACT LABEL -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Liên hệ"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- CONTACT LINK -->
+                <TextView
+                    android:id="@+id/tvContactLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="https://linkedin.com/in/mentor"
+                    android:textSize="14sp"
+                    android:textColor="#1565C0" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ================= BUTTON ================= -->
+        <Button
+            android:id="@+id/btnContact"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:text="🤝 Liên hệ Mentor"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#0D47A1" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
